@@ -10,6 +10,33 @@ enum PaymentTypeHandler {
   ON_AUTH_PROGRESS,
 }
 
+extension StringPaymentHandlerExt on String {
+  static handler() {
+    switch (this) {
+      case "onTransactionSucess":
+        return PaymentTypeHandler.ON_TRANSACTION_SUCCESS;
+      case "onError":
+        return PaymentTypeHandler.ON_ERROR;
+      case "onMessage":
+        return PaymentTypeHandler.ON_MESSAGE;
+      case "onLoading":
+        return PaymentTypeHandler.ON_LOADING;
+      case "writeToFile":
+        return PaymentTypeHandler.WRITE_TO_FILE;
+      case "onAbortedSuccessfully":
+        return PaymentTypeHandler.ON_ABORTED_SUCCESSFULLY;
+      case "disposeDialog":
+        return PaymentTypeHandler.DISPOSE_DIALOG;
+      case "activeDialog":
+        return PaymentTypeHandler.ACTIVE_DIALOG;
+      case "onAuthProgress":
+        return PaymentTypeHandler.ON_AUTH_PROGRESS;
+      default:
+        throw "NOT IMPLEMENTED";
+    }
+  }
+}
+
 extension PaymentTypeHandlerExt on PaymentTypeHandler {
   get method {
     switch (this) {

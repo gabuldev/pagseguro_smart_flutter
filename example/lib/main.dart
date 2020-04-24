@@ -33,14 +33,29 @@ class _MyAppState extends State<MyApp> {
           ),
           body: Column(
             children: <Widget>[
+              Text("STATUS"),
+              Text(message),
+              SizedBox(
+                height: 20,
+              ),
               FlatButton(
                   onPressed: () async {
                     final value = await payment.debitPayment(100);
                     print(value);
                   },
                   child: Text("DebitPayment 1.00")),
-              Text("STATUS"),
-              Text(message)
+              FlatButton(
+                  onPressed: () async {
+                    final value = await payment.creditPayment(100);
+                    print(value);
+                  },
+                  child: Text("CreditPayment 1.00")),
+              FlatButton(
+                  onPressed: () async {
+                    final value = await payment.abortTransaction();
+                    print(value);
+                  },
+                  child: Text("AbortPayment 1.00")),
             ],
           )),
     );
