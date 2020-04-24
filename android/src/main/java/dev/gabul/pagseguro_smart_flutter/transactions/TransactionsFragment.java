@@ -21,7 +21,7 @@ public class TransactionsFragment implements  TransactionsContract{
     private static final String ON_LOADING = "onLoading";
     private static final String WRITE_TO_FILE = "writeToFile";
     private static final String ON_ABORTED_SUCCESSFULLY = "onAbortedSuccessfully";
-    private static final String ON_PRINT_ERROR = "onPritError";
+    private static final String ON_PRINT_ERROR = "onPrintError";
     private static final String ON_LAST_TRANSACTION = "onLastTransaction";
 
 

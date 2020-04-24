@@ -2,9 +2,11 @@ package dev.gabul.pagseguro_smart_flutter.payments;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 
 import dev.gabul.pagseguro_smart_flutter.core.ActionResult;
+import io.flutter.plugin.common.MethodChannel;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,9 +23,9 @@ public class PaymentsPresenter  {
     private int countPassword = 0;
 
     @Inject
-    public PaymentsPresenter(PaymentsUseCase useCase, PaymentsFragment fragment) {
-        mUseCase = useCase;
-        mFragment = fragment;
+    public PaymentsPresenter(PlugPag plugPag, MethodChannel channel) {
+        mUseCase = new PaymentsUseCase(plugPag);
+        mFragment = new PaymentsFragment(channel);
     }
 
     public void creditPayment(int value) {

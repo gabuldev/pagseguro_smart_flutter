@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:pagseguro_smart_flutter/pagseguro_smart_flutter.dart';
 
 void main() {

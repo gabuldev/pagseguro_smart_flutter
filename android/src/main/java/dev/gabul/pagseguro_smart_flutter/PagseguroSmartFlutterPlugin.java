@@ -24,6 +24,8 @@ public class PagseguroSmartFlutterPlugin implements FlutterPlugin, MethodCallHan
 
   private MethodChannel channel;
   private Context context;
+  private PaymentsPresenter paymentsPresenter;
+  private PlugPag plugPag;
 
 
   public PagseguroSmartFlutterPlugin() {}
@@ -34,18 +36,19 @@ public class PagseguroSmartFlutterPlugin implements FlutterPlugin, MethodCallHan
         instance.channel = new MethodChannel(registrar.messenger(),CHANNEL_NAME);
         instance.context = registrar.context();
         instance.channel.setMethodCallHandler(instance);
+        instance.plugPag = new PlugPag(instance.context,new PlugPagAppIdentification("Pagseguro Smart Flutter","0.0.1"));
+        instance.paymentsPresenter = new PaymentsPresenter(instance.plugPag,instance.channel);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-      final PlugPag plugPag = new PlugPag(context,new PlugPagAppIdentification("Test APP","0.0.1"));
-    if (call.method.equals("paymentDebit")) {
-        final PaymentsUseCase useCase = new PaymentsUseCase(plugPag);
-        final PaymentsFragment fragment = new PaymentsFragment(channel);
-        final PaymentsPresenter presenter = new PaymentsPresenter(useCase,fragment);
-        presenter.doDebitPayment(call.argument("value"));
+       if (call.method.equals("paymentDebit")) {
+           paymentsPresenter.doDebitPayment(call.argument("value"));
+    } else if (call.method.equals("paymentCredit")) {
+          paymentsPresenter.doDebitPayment(call.argument("value"));
+      }
 
-    } else {
+       else {
       result.notImplemented();
     }
   }
@@ -55,6 +58,8 @@ public class PagseguroSmartFlutterPlugin implements FlutterPlugin, MethodCallHan
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
       channel = new MethodChannel(binding.getBinaryMessenger(), CHANNEL_NAME);
       context = binding.getApplicationContext();
+      plugPag =  new PlugPag( context,new PlugPagAppIdentification("Pagseguro Smart Flutter","0.0.1"));
+      paymentsPresenter = new  PaymentsPresenter(plugPag,channel);
       channel.setMethodCallHandler(this);
 
     }

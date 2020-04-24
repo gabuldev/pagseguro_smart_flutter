@@ -2,9 +2,7 @@ import 'package:pagseguro_smart_flutter/payments/handler/payment_handler.dart';
 
 class PaymentHandlerImpl implements PaymentHandler {
   @override
-  void disposeDialog() {
-    // TODO: implement disposeDialog
-  }
+  void disposeDialog() {}
 
   @override
   void onAbortedSuccessfully() {

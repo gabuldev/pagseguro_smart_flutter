@@ -14,7 +14,7 @@ public class PaymentsFragment implements PaymentsContract  {
     }
 
     //METHODS
-    private static final String ON_TRANSACTION_SUCCESS = "onTransactionSucess";
+    private static final String ON_TRANSACTION_SUCCESS = "onTransactionSuccess";
     private static final String ON_ERROR = "onError";
     private static final String ON_MESSAGE = "onMessage";
     private static final String ON_LOADING = "onLoading";
