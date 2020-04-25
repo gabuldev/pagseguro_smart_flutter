@@ -19,4 +19,6 @@ interface PaymentsContract {
     void onActivationDialog();
 
     void onAuthProgress(String message);
+
+    void onTransactionInfo(String transactionCode, String transactionId);
 }

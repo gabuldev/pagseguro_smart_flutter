@@ -8,10 +8,11 @@ enum PaymentTypeHandler {
   DISPOSE_DIALOG,
   ACTIVE_DIALOG,
   ON_AUTH_PROGRESS,
+  ON_TRANSACTION_INFO
 }
 
 extension StringPaymentHandlerExt on String {
-  static handler() {
+  get handler {
     switch (this) {
       case "onTransactionSucess":
         return PaymentTypeHandler.ON_TRANSACTION_SUCCESS;
@@ -31,6 +32,8 @@ extension StringPaymentHandlerExt on String {
         return PaymentTypeHandler.ACTIVE_DIALOG;
       case "onAuthProgress":
         return PaymentTypeHandler.ON_AUTH_PROGRESS;
+      case "onTransactionInfo":
+        return PaymentTypeHandler.ON_TRANSACTION_INFO;
       default:
         throw "NOT IMPLEMENTED";
     }
@@ -58,23 +61,52 @@ extension PaymentTypeHandlerExt on PaymentTypeHandler {
         return "activeDialog";
       case PaymentTypeHandler.ON_AUTH_PROGRESS:
         return "onAuthProgress";
+      case PaymentTypeHandler.ON_TRANSACTION_INFO:
+        return "onTransactionInfo";
     }
   }
 }
 
-enum PaymentTypeCall { CREDIT, DEBIT, VOUCHER, ABORT }
+enum PaymentTypeCall {
+  CREDIT,
+  CREDIT_PARC,
+  DEBIT,
+  VOUCHER,
+  ABORT,
+  LAST_TRANSACTION,
+  REFUND
+}
+
+enum PaymentTypeCredit { SALESMAN, CLIENT }
+
+extension PaymentTypeCreditExt on PaymentTypeCredit {
+  get value {
+    switch (this) {
+      case PaymentTypeCredit.SALESMAN:
+        return 2;
+      case PaymentTypeCredit.CLIENT:
+        return 3;
+    }
+  }
+}
 
 extension PaymentTypeCallExt on PaymentTypeCall {
   get method {
     switch (this) {
       case PaymentTypeCall.CREDIT:
         return "paymentCredit";
+      case PaymentTypeCall.CREDIT_PARC:
+        return "paymentCreditParc";
       case PaymentTypeCall.DEBIT:
         return "paymentDebit";
       case PaymentTypeCall.VOUCHER:
         return "paymentVoucher";
       case PaymentTypeCall.ABORT:
         return "paymentAbort";
+      case PaymentTypeCall.LAST_TRANSACTION:
+        return "paymentLastTransaction";
+      case PaymentTypeCall.REFUND:
+        return "paymentRefund";
     }
   }
 }

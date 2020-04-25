@@ -44,6 +44,17 @@ public class PaymentsUseCase {
         ));
     }
 
+    public Observable<ActionResult> doCreditPaymentParc(int value,int type,int parc) {
+        return doPayment(new PlugPagPaymentData(
+                TYPE_CREDITO,
+                value,
+                type,
+                parc,
+                USER_REFERENCE,
+                true
+        ));
+    }
+
     public Observable<ActionResult> doDebitPayment(int value) {
         return doPayment(new PlugPagPaymentData(
                 TYPE_DEBITO,
@@ -123,12 +134,12 @@ public class PaymentsUseCase {
         });
     }
 
-    public Observable<ActionResult> doRefund(ActionResult transaction) {
+    public Observable<ActionResult> doRefund(String transactionCode, String transactionId) {
         return Observable.create(emitter -> {
             ActionResult actionResult = new ActionResult();
             setListener(emitter, actionResult);
-            PlugPagTransactionResult result = mPlugPag.voidPayment(new PlugPagVoidData(transaction.getTransactionCode(),
-                    transaction.getTransactionId(),
+            PlugPagTransactionResult result = mPlugPag.voidPayment(new PlugPagVoidData(transactionCode,
+                    transactionId,
                     true));
 
             sendResponse(emitter, result, actionResult);

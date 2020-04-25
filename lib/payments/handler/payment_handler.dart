@@ -7,7 +7,7 @@ abstract class PaymentHandler {
 
   void onLoading(bool show);
 
-  void writeToFile(String transactionCode, String transactionId);
+  void writeToFile({String transactionCode, String transactionId});
 
   void onAbortedSuccessfully();
 
@@ -16,4 +16,6 @@ abstract class PaymentHandler {
   void onActivationDialog();
 
   void onAuthProgress(String message);
+
+  void onTransactionInfo({String transactionCode, String transactionId});
 }

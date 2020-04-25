@@ -1,5 +1,6 @@
+import 'package:bot_toast/bot_toast.dart';
+import 'package:example/payment/payment_page.dart';
 import 'package:flutter/material.dart';
-import 'package:pagseguro_smart_flutter/pagseguro_smart_flutter.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,53 +12,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var message = "";
-  Payment payment;
-
-  @override
-  void initState() {
-    payment = Payment(onMessage: (value) {
-      setState(() {
-        message = value;
-      });
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Plugin example app'),
-          ),
-          body: Column(
-            children: <Widget>[
-              Text("STATUS"),
-              Text(message),
-              SizedBox(
-                height: 20,
+    return BotToastInit(
+      child: MaterialApp(
+        navigatorObservers: [BotToastNavigatorObserver()],
+        home: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+              appBar: AppBar(
+                title: const Text('Pagseguro Smart Flutter'),
+                bottom: TabBar(tabs: [
+                  Tab(
+                    child: Text("Vender"),
+                  ),
+                  Tab(
+                    child: Text("Transações"),
+                  )
+                ]),
               ),
-              FlatButton(
-                  onPressed: () async {
-                    final value = await payment.debitPayment(100);
-                    print(value);
-                  },
-                  child: Text("DebitPayment 1.00")),
-              FlatButton(
-                  onPressed: () async {
-                    final value = await payment.creditPayment(100);
-                    print(value);
-                  },
-                  child: Text("CreditPayment 1.00")),
-              FlatButton(
-                  onPressed: () async {
-                    final value = await payment.abortTransaction();
-                    print(value);
-                  },
-                  child: Text("AbortPayment 1.00")),
-            ],
-          )),
+              body: TabBarView(children: [
+                PaymentPage(),
+                Container(),
+              ])),
+        ),
+      ),
     );
   }
 }

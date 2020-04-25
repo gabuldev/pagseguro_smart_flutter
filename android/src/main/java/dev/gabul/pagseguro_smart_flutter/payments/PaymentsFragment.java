@@ -23,6 +23,7 @@ public class PaymentsFragment implements PaymentsContract  {
     private static final String DISPOSE_DIALOG = "disposeDialog";
     private static final String ACTIVE_DIALOG = "activeDialog";
     private static final String ON_AUTH_PROGRESS = "onAuthProgress";
+    private static final String ON_TRANSACTION_INFO = "onTransactionInfo";
 
 
 
@@ -77,6 +78,14 @@ public class PaymentsFragment implements PaymentsContract  {
     @Override
     public void onAuthProgress(String message) {
         this.channel.invokeMethod(ON_AUTH_PROGRESS,message);
+    }
+
+    @Override
+    public void onTransactionInfo(String transactionCode, String transactionId) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("transactionCode",transactionCode);
+        map.put("transactionId",transactionId);
+        this.channel.invokeMethod(ON_TRANSACTION_INFO,map);
     }
 
 }

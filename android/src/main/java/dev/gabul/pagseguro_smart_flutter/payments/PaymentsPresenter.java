@@ -28,6 +28,8 @@ public class PaymentsPresenter  {
         mFragment = new PaymentsFragment(channel);
     }
 
+    public void creditPaymentParc(int value, int type, int parc){doAction(mUseCase.doCreditPaymentParc(value,type,parc),value);}
+
     public void creditPayment(int value) {
         doAction(mUseCase.doCreditPayment(value), value);
     }
@@ -40,13 +42,9 @@ public class PaymentsPresenter  {
         doAction(mUseCase.doVoucherPayment(value), value);
     }
 
-    public void doRefund(ActionResult actionResult) {
-        if (actionResult.getMessage() != null) {
-            mFragment.onError(actionResult.getMessage());
-            mFragment.disposeDialog();
-        } else {
-            doAction(mUseCase.doRefund(actionResult), 0);
-        }
+
+    public void doRefund(String transactionCode, String transactionId) {
+            doAction(mUseCase.doRefund(transactionCode,transactionId), 0);
     }
 
     private void doAction(Observable<ActionResult> action, int value) {
@@ -141,7 +139,7 @@ public class PaymentsPresenter  {
         mSubscribe = mUseCase.getLastTransaction()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(actionResult -> mFragment.onMessage(actionResult.getTransactionCode()),
+                .subscribe(actionResult -> mFragment.onTransactionInfo(actionResult.getTransactionCode(),actionResult.getTransactionId()),
                         throwable -> mFragment.onError(throwable.getMessage()));
     }
 

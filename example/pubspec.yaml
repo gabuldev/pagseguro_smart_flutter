@@ -21,6 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  bot_toast: ^2.4.1
+  flutter_masked_text: ^0.8.0
   flutter:
     sdk: flutter
 
