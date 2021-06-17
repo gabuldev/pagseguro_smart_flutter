@@ -14,28 +14,28 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return BotToastInit(
-      child: MaterialApp(
-        navigatorObservers: [BotToastNavigatorObserver()],
-        home: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-              appBar: AppBar(
-                title: const Text('Pagseguro Smart Flutter'),
-                bottom: TabBar(tabs: [
-                  Tab(
-                    child: Text("Vender"),
-                  ),
-                  Tab(
-                    child: Text("Transações"),
-                  )
-                ]),
-              ),
-              body: TabBarView(children: [
-                PaymentPage(),
-                Container(),
-              ])),
-        ),
+    return MaterialApp(
+      navigatorObservers: [BotToastNavigatorObserver()],
+      builder: BotToastInit(), //1. call BotToastInit
+
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Pagseguro Smart Flutter'),
+              bottom: TabBar(tabs: [
+                Tab(
+                  child: Text("Vender"),
+                ),
+                Tab(
+                  child: Text("Transações"),
+                )
+              ]),
+            ),
+            body: TabBarView(children: [
+              PaymentPage(),
+              Container(),
+            ])),
       ),
     );
   }
