@@ -30,15 +30,6 @@ public class PagseguroSmartFlutterPlugin implements FlutterPlugin, MethodCallHan
 
   public PagseguroSmartFlutterPlugin() {}
 
-/*
-  public static void registerWith(Registrar registrar) {
-        PagseguroSmartFlutterPlugin instance = new PagseguroSmartFlutterPlugin();
-        instance.channel = new MethodChannel(registrar.messenger(),CHANNEL_NAME);
-        instance.context = registrar.context();
-        instance.channel.setMethodCallHandler(instance);
-        instance.pagSeguroSmart = new PagSeguroSmart(instance.context,instance.channel);
-        }**/
-
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
        if (call.method.startsWith("payment")) {

@@ -1,6 +1,8 @@
 package dev.gabul.pagseguro_smart_flutter.core;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAppIdentification;
@@ -32,37 +34,44 @@ public class PagSeguroSmart {
     public void initPayment(MethodCall call, MethodChannel.Result result){
         if(this.payment == null)
         this.payment = new PaymentsPresenter(this.plugPag,this.mChannel);
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if(call.method.equals(PAYMENT_DEBIT)){
+                    payment.doDebitPayment(call.argument("value"));
 
-        if(call.method.equals(PAYMENT_DEBIT)){
-           this.payment.doDebitPayment(call.argument("value"));
+                }
+                else if(call.method.equals(PAYMENT_CREDIT)){
+                   payment.creditPayment(call.argument("value"));
 
-        }
-        else if(call.method.equals(PAYMENT_CREDIT)){
-            this.payment.creditPayment(call.argument("value"));
+                }
+                else if(call.method.equals(PAYMENT_CREDIT_PARC)){
+                    payment.creditPaymentParc(call.argument("value"),call.argument("type"),call.argument("parc"));
 
-    }
-        else if(call.method.equals(PAYMENT_CREDIT_PARC)){
-            this.payment.creditPaymentParc(call.argument("value"),call.argument("type"),call.argument("parc"));
+                }
+                else if(call.method.equals(PAYMENT_VOUCHER)){
+                    payment.doVoucherPayment(call.argument("value"));
 
-        }
-        else if(call.method.equals(PAYMENT_VOUCHER)){
-            this.payment.doVoucherPayment(call.argument("value"));
+                }
+                else if(call.method.equals(PAYMENT_ABORT)){
+                    payment.abortTransaction();
+                    result.success(true);
+                }
+                else if(call.method.equals(LAST_TRANSACTION)){
+                    payment.getLastTransaction();
+                }
+                else if(call.method.equals(REFUND)){
+                    payment.doRefund(call.argument("transactionCode"),call.argument("transactionId"));
+                    result.success(true);
+                }
+                else{
+                    result.notImplemented();
+                }
+            }
+        });
 
-        }
-       else if(call.method.equals(PAYMENT_ABORT)){
-            this.payment.abortTransaction();
-            result.success(true);
-        }
-        else if(call.method.equals(LAST_TRANSACTION)){
-            this.payment.getLastTransaction();
-        }
-        else if(call.method.equals(REFUND)){
-            this.payment.doRefund(call.argument("transactionCode"),call.argument("transactionId"));
-            result.success(true);
-        }
-        else{
-            result.notImplemented();
-        }
+
+
     }
 
 
