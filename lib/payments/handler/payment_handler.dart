@@ -5,9 +5,15 @@ abstract class PaymentHandler {
 
   void onMessage(String message);
 
+  void onFinishedResponse(String message);
+
   void onLoading(bool show);
 
-  void writeToFile({String transactionCode, String transactionId});
+  void writeToFile({
+    String transactionCode,
+    String transactionId,
+    String response,
+  });
 
   void onAbortedSuccessfully();
 
@@ -17,5 +23,9 @@ abstract class PaymentHandler {
 
   void onAuthProgress(String message);
 
-  void onTransactionInfo({String transactionCode, String transactionId});
+  void onTransactionInfo({
+    String transactionCode,
+    String transactionId,
+    String response,
+  });
 }

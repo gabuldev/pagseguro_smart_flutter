@@ -13,7 +13,6 @@ public class TransactionsFragment implements  TransactionsContract{
         this.channel = channel;
     }
 
-    //METHODS
     private static final String ON_TRANSACTION_SUCCESS = "onTransactionSucess";
     private static final String ON_TRANSACTION_SUCCESS_MESSAGE = "onTransactionSuccessMessage";
     private static final String ON_ERROR = "onError";
@@ -57,10 +56,11 @@ public class TransactionsFragment implements  TransactionsContract{
     }
 
     @Override
-    public void writeToFile(String transactionCode, String transactionId) {
+    public void writeToFile(String transactionCode, String transactionId, String response) {
         Map<String,String> map = new HashMap<String, String>();
         map.put("transactionCode",transactionCode);
         map.put("transactionId",transactionId);
+        map.put("response",response);
         this.channel.invokeMethod(WRITE_TO_FILE,map);
 
     }

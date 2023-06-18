@@ -8,7 +8,8 @@ enum PaymentTypeHandler {
   DISPOSE_DIALOG,
   ACTIVE_DIALOG,
   ON_AUTH_PROGRESS,
-  ON_TRANSACTION_INFO
+  ON_TRANSACTION_INFO,
+  ON_FINISHED_RESPONSE
 }
 
 extension StringPaymentHandlerExt on String {
@@ -20,6 +21,8 @@ extension StringPaymentHandlerExt on String {
         return PaymentTypeHandler.ON_ERROR;
       case "onMessage":
         return PaymentTypeHandler.ON_MESSAGE;
+      case "onFinishedResponse":
+        return PaymentTypeHandler.ON_FINISHED_RESPONSE;
       case "onLoading":
         return PaymentTypeHandler.ON_LOADING;
       case "writeToFile":
@@ -63,6 +66,8 @@ extension PaymentTypeHandlerExt on PaymentTypeHandler {
         return "onAuthProgress";
       case PaymentTypeHandler.ON_TRANSACTION_INFO:
         return "onTransactionInfo";
+      case PaymentTypeHandler.ON_FINISHED_RESPONSE:
+        return "onFinishedResponse";
     }
   }
 }
@@ -74,7 +79,8 @@ enum PaymentTypeCall {
   VOUCHER,
   ABORT,
   LAST_TRANSACTION,
-  REFUND
+  REFUND,
+  ACTIVEPINPAD
 }
 
 enum PaymentTypeCredit { SALESMAN, CLIENT }
@@ -107,6 +113,8 @@ extension PaymentTypeCallExt on PaymentTypeCall {
         return "paymentLastTransaction";
       case PaymentTypeCall.REFUND:
         return "paymentRefund";
+      case PaymentTypeCall.ACTIVEPINPAD:
+        return "paymentActivePinpad";
     }
   }
 }

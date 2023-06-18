@@ -10,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 import io.reactivex.schedulers.Schedulers;
+import com.google.gson.Gson;
 
 public class TransactionsPresenter {
 
@@ -98,7 +99,9 @@ public class TransactionsPresenter {
 
     private void writeToFile(ActionResult result) {
         if (result.getTransactionCode() != null && result.getTransactionId() != null) {
-            mFragment.writeToFile(result.getTransactionCode(), result.getTransactionId());
+            String response;
+           response=  new Gson().toJson(result);
+            mFragment.writeToFile(result.getTransactionCode(), result.getTransactionId(), response);
         }
     }
 

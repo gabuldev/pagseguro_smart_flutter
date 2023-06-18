@@ -12,7 +12,7 @@ public interface TransactionsContract {
 
     void onLoading(boolean show);
 
-    void writeToFile(String transactionCode, String transactionId);
+    void writeToFile(String transactionCode, String transactionId, String response);
 
     void onAbortedSuccessfully();
 

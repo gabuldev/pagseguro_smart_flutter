@@ -1,10 +1,13 @@
-import 'package:example/payment/payment_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+
 import 'package:pagseguro_smart_flutter/pagseguro_smart_flutter.dart';
 
+import 'payment_controller.dart';
+
 class PaymentPage extends StatefulWidget {
-  PaymentPage({Key key}) : super(key: key);
+  const PaymentPage({Key? key}) : super(key: key);
 
   @override
   _PaymentPageState createState() => _PaymentPageState();
@@ -13,7 +16,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   final PaymentController controller = PaymentController();
 
-  double saleValue;
+  double? saleValue;
   MoneyMaskedTextController moneyController =
       MoneyMaskedTextController(leftSymbol: "R\$ ", decimalSeparator: ",");
 
@@ -29,7 +32,7 @@ class _PaymentPageState extends State<PaymentPage> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextField(
@@ -37,26 +40,24 @@ class _PaymentPageState extends State<PaymentPage> {
               controller.setSaleValue(moneyController.numberValue);
             }),
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(hintText: "Digite o valor"),
+            decoration: const InputDecoration(hintText: "Digite o valor"),
             controller: moneyController,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             "Selecione o método de pagamento",
             style: TextStyle(fontSize: 16),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Wrap(
             spacing: 10.0,
             children: <Widget>[
-              RaisedButton(
-                child: Text("Débito"),
-                colorBrightness: Brightness.dark,
-                color: Colors.green,
+              ElevatedButton(
+                child: const Text("Débito"),
                 onPressed: controller.enable
                     ? () {
                         FocusScope.of(context).unfocus();
@@ -69,10 +70,8 @@ class _PaymentPageState extends State<PaymentPage> {
                       }
                     : null,
               ),
-              RaisedButton(
-                child: Text("Crédito"),
-                colorBrightness: Brightness.dark,
-                color: Colors.green,
+              ElevatedButton(
+                child: const Text("Crédito"),
                 onPressed: controller.enable
                     ? () {
                         FocusScope.of(context).unfocus();
@@ -85,10 +84,8 @@ class _PaymentPageState extends State<PaymentPage> {
                       }
                     : null,
               ),
-              RaisedButton(
-                child: Text("Crédito Parc- 2"),
-                colorBrightness: Brightness.dark,
-                color: Colors.green,
+              ElevatedButton(
+                child: const Text("Crédito Parc- 2"),
                 onPressed: controller.enable
                     ? () {
                         FocusScope.of(context).unfocus();
@@ -101,10 +98,8 @@ class _PaymentPageState extends State<PaymentPage> {
                       }
                     : null,
               ),
-              RaisedButton(
-                child: Text("Voucher"),
-                colorBrightness: Brightness.dark,
-                color: Colors.green,
+              ElevatedButton(
+                child: const Text("Voucher"),
                 onPressed: controller.enable
                     ? () {
                         FocusScope.of(context).unfocus();
@@ -116,49 +111,53 @@ class _PaymentPageState extends State<PaymentPage> {
                             .voucherPayment(controller.saleValue);
                       }
                     : null,
-              )
+              ),
+              ElevatedButton(
+                child: const Text("ATIVAR PINPAD"),
+                onPressed: () async {
+                  FocusScope.of(context).unfocus();
+                  setState(() {
+                    controller.clickPayment = true;
+                  });
+                  PagseguroSmart.instance().payment.activePinpad('');
+                },
+              ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          RaisedButton(
-            colorBrightness: Brightness.dark,
-            color: Colors.red,
+          ElevatedButton(
             onPressed: controller.clickPayment
                 ? () {
                     controller.setSaleValue(0.0);
                     PagseguroSmart.instance().payment.abortTransaction();
                   }
                 : null,
-            child: Text("Cancelar Operação"),
+            child: const Text("Cancelar Operação"),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          RaisedButton(
-            colorBrightness: Brightness.dark,
-            color: Colors.blue,
+          ElevatedButton(
             onPressed: () {
-              Future.delayed(Duration(seconds: 3))
+              Future.delayed(const Duration(seconds: 3))
                   .then((value) => setState(() {}));
               PagseguroSmart.instance().payment.lastTransaction();
             },
-            child: Text("Ultima transação"),
+            child: const Text("Ultima transação"),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           if (controller.enableRefund)
-            RaisedButton(
-              colorBrightness: Brightness.dark,
-              color: Colors.blue,
+            ElevatedButton(
               onPressed: () {
                 PagseguroSmart.instance().payment.refund(
                     transactionCode: controller.transactionCode,
                     transactionId: controller.transactionId);
               },
-              child: Text("Estornar transação"),
+              child: const Text("Estornar transação"),
             ),
         ],
       ),
