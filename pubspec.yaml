@@ -25,3 +25,4 @@ flutter:
         pluginClass: PagseguroSmartFlutterPlugin
       ios:
         pluginClass: PagseguroSmartFlutterPlugin
+        

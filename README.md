@@ -43,7 +43,7 @@ AndroidManifest.xml dentro da sua Activity principal.
 </intent-filter>
 ```
 
-### # build.gradle
+### # Build.gradle
 
 Em seu build.gradle a nivel do app, a propriedade `minSdkVersion` precisa ser level 23. Recurso este exigido pela versão 1.22.0 do plugpagservice da PagSeguro.
 
@@ -59,7 +59,7 @@ defaultConfig {
 ...
 ```
 
-## :memo: autores ##
+## :memo: Autores ##
 
 Este projeto foi desenvolvido por:
 <a href="https://github.com/gabuldev" target="_blank">Gabul Dev</a> e
