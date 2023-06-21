@@ -3,56 +3,69 @@ import 'package:flutter/services.dart';
 import 'package:pagseguro_smart_flutter/payments/handler/payment_handler.dart';
 import 'package:pagseguro_smart_flutter/payments/utils/payment_types.dart';
 
+//Fixed channel name
 const CHANNEL_NAME = "pagseguro_smart_flutter";
 
 class Payment {
   final MethodChannel channel;
   final PaymentHandler paymentHandler;
 
-  Payment({required this.channel, required this.paymentHandler}) {
+  Payment({
+    required this.channel,
+    required this.paymentHandler,
+  }) {
     channel.setMethodCallHandler(_callHandler);
   }
-  //TYPES
+  //Create external functions from invoke methodChannel
+  //Function to active pinpad with sdk the PagSeguro
   Future<bool> activePinpad(String actvationCode) async {
     return await channel.invokeMethod(
         PaymentTypeCall.ACTIVEPINPAD.method, {"code": actvationCode});
   }
 
+//Function to invoke method from credit payment with sdk the PagSeguro
   Future<bool> creditPayment(int value) async {
     return await channel
         .invokeMethod(PaymentTypeCall.CREDIT.method, {"value": value});
   }
 
+//Function to invoke method from credit installment payment  with sdk the PagSeguro
   Future<bool> creditPaymentParc(int value, int parc,
       {PaymentTypeCredit type = PaymentTypeCredit.CLIENT}) async {
     return await channel.invokeMethod(PaymentTypeCall.CREDIT_PARC.method,
         {"value": value, "parc": parc, "type": type.value});
   }
 
+//Function to invoke method from debit payment with sdk the PagSeguro
   Future<bool> debitPayment(int value) async {
     return await channel
         .invokeMethod(PaymentTypeCall.DEBIT.method, {"value": value});
   }
 
+//Function to invoke method from voucher payment with sdk the PagSeguro
   Future<bool> voucherPayment(int value) async {
     return await channel
         .invokeMethod(PaymentTypeCall.VOUCHER.method, {"value": value});
   }
 
   //OPERATIONS
+  //Function to invoke method from abort current transaction with sdk the PagSeguro
   Future<bool> abortTransaction() async {
     return await channel.invokeMethod(PaymentTypeCall.ABORT.method);
   }
 
+//Function to invoke method from get last transaction with sdk the PagSeguro
   Future<bool> lastTransaction() async {
     return await channel.invokeMethod(PaymentTypeCall.LAST_TRANSACTION.method);
   }
 
+//Function to invoke method from refund transaction with sdk the PagSeguro
   Future<bool> refund({String? transactionCode, String? transactionId}) async {
     return await channel.invokeMethod(PaymentTypeCall.REFUND.method,
         {"transactionCode": transactionCode, "transactionId": transactionId});
   }
 
+//Function to listen to pagseguro returns in the native environment and notify Flutter
   Future<dynamic> _callHandler(MethodCall call) async {
     switch (call.method.handler) {
       case PaymentTypeHandler.ON_TRANSACTION_SUCCESS:

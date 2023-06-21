@@ -38,13 +38,16 @@ public class PagseguroSmartFlutterPlugin implements FlutterPlugin, MethodCallHan
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
     channel = new MethodChannel(binding.getBinaryMessenger(), CHANNEL_NAME);
+    //Get context to application
     context = binding.getApplicationContext();
     channel.setMethodCallHandler(this);
+    //Create instance to PagSeguroSmart class
     pagSeguroSmart = new PagSeguroSmart(context,channel);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+    //Function responsible for listening to methods called by flutter
     if (call.method.startsWith("payment")) {
       pagSeguroSmart.initPayment(call,result);
     }
@@ -56,6 +59,7 @@ public class PagseguroSmartFlutterPlugin implements FlutterPlugin, MethodCallHan
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    //Dispose plugin
     channel.setMethodCallHandler(null);
     channel = null;
     pagSeguroSmart.dispose();

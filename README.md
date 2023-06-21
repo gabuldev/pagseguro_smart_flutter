@@ -3,7 +3,7 @@
 <p align="center">
   <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0; 
   <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-começando">Começando</a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-configuração">Configuração</a> &#xa0; | &#xa0;
   <a href="#memo-autores">Autores</a> &#xa0; | &#xa0;
 </p>
 
@@ -48,14 +48,15 @@ AndroidManifest.xml dentro da sua Activity principal.
 Em seu build.gradle a nivel do app, a propriedade `minSdkVersion` precisa ser level 23. Recurso este exigido pela versão 1.22.0 do plugpagservice da PagSeguro.
 
 ```xml 
+...
 defaultConfig {
-
         applicationId "com.example.pagseguro_example"
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
+...
 ```
 
 ## :memo: autores ##

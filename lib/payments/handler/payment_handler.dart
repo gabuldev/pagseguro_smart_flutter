@@ -1,3 +1,4 @@
+//Contract payment handler
 abstract class PaymentHandler {
   void onTransactionSuccess();
 

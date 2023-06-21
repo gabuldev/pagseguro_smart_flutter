@@ -1,5 +1,5 @@
 package dev.gabul.pagseguro_smart_flutter.transactions;
-
+//Contract class
 public interface TransactionsContract {
 
     void onTransactionSuccess();

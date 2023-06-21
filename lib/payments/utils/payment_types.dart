@@ -1,3 +1,4 @@
+//Fixed payment type hanldle from return functions
 enum PaymentTypeHandler {
   ON_TRANSACTION_SUCCESS,
   ON_ERROR,
@@ -72,6 +73,7 @@ extension PaymentTypeHandlerExt on PaymentTypeHandler {
   }
 }
 
+//fixed payment type to call from channel
 enum PaymentTypeCall {
   CREDIT,
   CREDIT_PARC,
@@ -96,6 +98,7 @@ extension PaymentTypeCreditExt on PaymentTypeCredit {
   }
 }
 
+//Fixed method to call on methodChannel
 extension PaymentTypeCallExt on PaymentTypeCall {
   get method {
     switch (this) {
