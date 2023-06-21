@@ -1,7 +1,8 @@
 name: pagseguro_smart_flutter
 description: A new flutter plugin project.
 version: 0.0.1
-homepage:
+homepage: https://gabul.dev
+repository: https://github.com/gabuldev/pagseguro_smart_flutter
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
@@ -22,4 +23,5 @@ flutter:
       android:
         package: dev.gabul.pagseguro_smart_flutter
         pluginClass: PagseguroSmartFlutterPlugin
-
+      ios:
+        pluginClass: PagseguroSmartFlutterPlugin
