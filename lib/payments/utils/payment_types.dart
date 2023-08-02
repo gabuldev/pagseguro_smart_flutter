@@ -1,3 +1,4 @@
+//Fixed payment type hanldle from return functions
 enum PaymentTypeHandler {
   ON_TRANSACTION_SUCCESS,
   ON_ERROR,
@@ -8,7 +9,8 @@ enum PaymentTypeHandler {
   DISPOSE_DIALOG,
   ACTIVE_DIALOG,
   ON_AUTH_PROGRESS,
-  ON_TRANSACTION_INFO
+  ON_TRANSACTION_INFO,
+  ON_FINISHED_RESPONSE
 }
 
 extension StringPaymentHandlerExt on String {
@@ -20,6 +22,8 @@ extension StringPaymentHandlerExt on String {
         return PaymentTypeHandler.ON_ERROR;
       case "onMessage":
         return PaymentTypeHandler.ON_MESSAGE;
+      case "onFinishedResponse":
+        return PaymentTypeHandler.ON_FINISHED_RESPONSE;
       case "onLoading":
         return PaymentTypeHandler.ON_LOADING;
       case "writeToFile":
@@ -63,10 +67,13 @@ extension PaymentTypeHandlerExt on PaymentTypeHandler {
         return "onAuthProgress";
       case PaymentTypeHandler.ON_TRANSACTION_INFO:
         return "onTransactionInfo";
+      case PaymentTypeHandler.ON_FINISHED_RESPONSE:
+        return "onFinishedResponse";
     }
   }
 }
 
+//fixed payment type to call from channel
 enum PaymentTypeCall {
   CREDIT,
   CREDIT_PARC,
@@ -74,7 +81,8 @@ enum PaymentTypeCall {
   VOUCHER,
   ABORT,
   LAST_TRANSACTION,
-  REFUND
+  REFUND,
+  ACTIVEPINPAD
 }
 
 enum PaymentTypeCredit { SALESMAN, CLIENT }
@@ -90,6 +98,7 @@ extension PaymentTypeCreditExt on PaymentTypeCredit {
   }
 }
 
+//Fixed method to call on methodChannel
 extension PaymentTypeCallExt on PaymentTypeCall {
   get method {
     switch (this) {
@@ -107,6 +116,8 @@ extension PaymentTypeCallExt on PaymentTypeCall {
         return "paymentLastTransaction";
       case PaymentTypeCall.REFUND:
         return "paymentRefund";
+      case PaymentTypeCall.ACTIVEPINPAD:
+        return "paymentActivePinpad";
     }
   }
 }

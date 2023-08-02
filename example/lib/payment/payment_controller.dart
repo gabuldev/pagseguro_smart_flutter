@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+
 import 'package:pagseguro_smart_flutter/payments/handler/payment_handler.dart';
 
 class PaymentController extends PaymentHandler {
@@ -6,12 +7,13 @@ class PaymentController extends PaymentHandler {
   bool enable = false;
   bool clickPayment = false;
   bool enableRefund = false;
-  String transactionCode;
-  String transactionId;
+  String? transactionCode;
+  String? transactionId;
+  String? response;
 
   void setSaleValue(double value) {
     if (value > 0.0) {
-      saleValue = value.toInt() * 100;
+      saleValue = (value * 100).toInt();
       clickPayment = false;
       enable = true;
     } else {
@@ -49,24 +51,40 @@ class PaymentController extends PaymentHandler {
   }
 
   @override
+  void onFinishedResponse(String message) {
+    BotToast.showText(text: message);
+  }
+
+  @override
   void onTransactionSuccess() {
     BotToast.showText(text: "Transacao com successo!");
   }
 
   @override
-  void writeToFile({String transactionCode, String transactionId}) {
-    // TODO: implement writeToFile
-  }
+  void writeToFile({
+    String? transactionCode,
+    String? transactionId,
+    String? response,
+  }) {}
 
   @override
   void onLoading(bool show) {
-    BotToast.showLoading();
+    if (show) {
+      BotToast.showLoading();
+      return;
+    }
+    BotToast.closeAllLoading();
   }
 
   @override
-  void onTransactionInfo({String transactionCode, String transactionId}) {
+  void onTransactionInfo({
+    String? transactionCode,
+    String? transactionId,
+    String? response,
+  }) {
     this.transactionCode = transactionCode;
     this.transactionId = transactionId;
+    this.response = response;
     BotToast.showText(
         text:
             "{transactionCode: $transactionCode \n transactionId: $transactionId}");

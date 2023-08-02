@@ -1,6 +1,6 @@
-# example
+# pagseguro_smart_flutter_example
 
-A new Flutter project.
+Demonstrates how to use the pagseguro_smart_flutter plugin.
 
 ## Getting Started
 

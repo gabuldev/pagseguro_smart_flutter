@@ -1,5 +1,9 @@
 package dev.gabul.pagseguro_smart_flutter.payments;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
@@ -70,11 +74,19 @@ public class PaymentsPresenter  {
                             } else {
                                 mFragment.onMessage(checkMessage(result.getMessage()));
                             }
+                            checkResponse(result);
                         },
                         throwable -> {
                             mFragment.onMessage(throwable.getMessage());
                             mFragment.disposeDialog();
                         });
+    }
+
+    private void checkResponse(ActionResult result) {
+        if (result.getBuildResponse() != 0) {
+            String response = new Gson().toJson(result);
+            mFragment.onFinishedResponse(response);
+        }
     }
 
     private String checkMessagePassword(int eventCode, int value) {
@@ -105,7 +117,9 @@ public class PaymentsPresenter  {
 
     private void writeToFile(ActionResult result) {
         if (result.getTransactionCode() != null && result.getTransactionId() != null) {
-            mFragment.writeToFile(result.getTransactionCode(), result.getTransactionId());
+            String response;
+            response=  new Gson().toJson(result);
+            mFragment.writeToFile(result.getTransactionCode(), result.getTransactionId(), response);
         }
     }
 
@@ -119,6 +133,7 @@ public class PaymentsPresenter  {
 
 
     public void activate(String activationCode) {
+        Log.d("print", "*** ATIVANDO PINPAD: " + activationCode);
         mSubscribe = mUseCase.initializeAndActivatePinpad(activationCode)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -126,20 +141,30 @@ public class PaymentsPresenter  {
                 .doOnComplete(() -> {
                     mFragment.onLoading(false);
                     mFragment.disposeDialog();
+                    Log.d("print", "*** throw 1: ");
                 })
                 .doOnDispose(() -> mFragment.disposeDialog())
                 .subscribe(actionResult -> mFragment.onAuthProgress(actionResult.getMessage()),
                         throwable -> {
                             mFragment.onLoading(false);
+                            mFragment.disposeDialog();
                             mFragment.onError(throwable.getMessage());
+                            Log.d("print", "*** throw 2: " + throwable.getMessage());
                         });
+        Log.d("print", "*** FIM ATIVAÇÃO: " );
     }
+
+
 
     public void getLastTransaction() {
         mSubscribe = mUseCase.getLastTransaction()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(actionResult -> mFragment.onTransactionInfo(actionResult.getTransactionCode(),actionResult.getTransactionId()),
+                .subscribe(actionResult -> {
+                            String response;
+                            response=  new Gson().toJson(actionResult);
+                            mFragment.onTransactionInfo(actionResult.getTransactionCode(),actionResult.getTransactionId(), response);
+                        },
                         throwable -> mFragment.onError(throwable.getMessage()));
     }
 

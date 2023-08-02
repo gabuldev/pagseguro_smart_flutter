@@ -12,65 +12,60 @@ public class PagSeguroSmart {
     final PlugPag plugPag;
     final MethodChannel mChannel;
 
-    //FUNCTIONS
-     PaymentsPresenter payment;
+    // FUNCTIONS
+    PaymentsPresenter payment;
 
-     //METHODS
-     private static final String PAYMENT_DEBIT = "paymentDebit";
-     private static final String PAYMENT_CREDIT = "paymentCredit";
-     private static final String PAYMENT_CREDIT_PARC = "paymentCreditParc";
-     private static final String PAYMENT_VOUCHER = "paymentVoucher";
-     private static final String PAYMENT_ABORT = "paymentAbort";
-     private static final String LAST_TRANSACTION = "paymentLastTransaction";
+    // METHODS
+    private static final String PAYMENT_DEBIT = "paymentDebit";
+    private static final String PAYMENT_CREDIT = "paymentCredit";
+    private static final String PAYMENT_CREDIT_PARC = "paymentCreditParc";
+    private static final String PAYMENT_VOUCHER = "paymentVoucher";
+    private static final String PAYMENT_ABORT = "paymentAbort";
+    private static final String LAST_TRANSACTION = "paymentLastTransaction";
     private static final String REFUND = "paymentRefund";
 
+    private static final String ACTIVE_PINPAD = "paymentActivePinpad";
+
     public PagSeguroSmart(Context context, MethodChannel channel) {
-        this.plugPag = new PlugPag(context,new PlugPagAppIdentification("Pagseguro Smart Flutter","0.0.1"));
+        this.plugPag = new PlugPag(context);
         this.mChannel = channel;
     }
 
-    public void initPayment(MethodCall call, MethodChannel.Result result){
-        if(this.payment == null)
-        this.payment = new PaymentsPresenter(this.plugPag,this.mChannel);
-
-        if(call.method.equals(PAYMENT_DEBIT)){
-           this.payment.doDebitPayment(call.argument("value"));
-
+    public void initPayment(MethodCall call, MethodChannel.Result result) {
+        if (this.payment == null) {
+            this.payment = new PaymentsPresenter(this.plugPag, this.mChannel);
         }
-        else if(call.method.equals(PAYMENT_CREDIT)){
+
+        if (call.method.equals(PAYMENT_DEBIT)) {
+            this.payment.doDebitPayment(call.argument("value"));
+        } else if (call.method.equals(ACTIVE_PINPAD)) {
+            this.payment.activate(call.argument("code"));
+
+        } else if (call.method.equals(PAYMENT_CREDIT)) {
             this.payment.creditPayment(call.argument("value"));
 
-    }
-        else if(call.method.equals(PAYMENT_CREDIT_PARC)){
-            this.payment.creditPaymentParc(call.argument("value"),call.argument("type"),call.argument("parc"));
+        } else if (call.method.equals(PAYMENT_CREDIT_PARC)) {
+            this.payment.creditPaymentParc(call.argument("value"), call.argument("type"), call.argument("parc"));
 
-        }
-        else if(call.method.equals(PAYMENT_VOUCHER)){
+        } else if (call.method.equals(PAYMENT_VOUCHER)) {
             this.payment.doVoucherPayment(call.argument("value"));
 
-        }
-       else if(call.method.equals(PAYMENT_ABORT)){
+        } else if (call.method.equals(PAYMENT_ABORT)) {
             this.payment.abortTransaction();
             result.success(true);
-        }
-        else if(call.method.equals(LAST_TRANSACTION)){
+        } else if (call.method.equals(LAST_TRANSACTION)) {
             this.payment.getLastTransaction();
-        }
-        else if(call.method.equals(REFUND)){
-            this.payment.doRefund(call.argument("transactionCode"),call.argument("transactionId"));
+        } else if (call.method.equals(REFUND)) {
+            this.payment.doRefund(call.argument("transactionCode"), call.argument("transactionId"));
             result.success(true);
-        }
-        else{
+        } else {
             result.notImplemented();
         }
     }
 
-
-   public void dispose(){
-        if(this.payment != null){
+    public void dispose() {
+        if (this.payment != null) {
             this.payment.dispose();
         }
     }
 }
-
-

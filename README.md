@@ -1,8 +1,28 @@
-# pagseguro_smart_flutter
+<h1 align="center">Pagseguro Smart Flutter</h1>
 
-A new Flutter plugin.
+<p align="center">
+  <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0; 
+  <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-configuração">Configuração</a> &#xa0; | &#xa0;
+  <a href="#memo-autores">Autores</a> &#xa0; | &#xa0;
+</p>
 
-## Android Manifest
+<br>
+
+## :dart: Sobre ##
+
+Projeto destinado a facilitar a integração com o SDK da PagSeguro no Flutter.
+
+## :rocket: Tecnologias ##
+
+As seguintes ferramentas foram usadas na construção do projeto:
+
+- [Flutter](https://flutter.dev/)
+- [PlugPagServiceWrapper]()
+
+## :checkered_flag: Configuração ##
+
+### # Android Manifest
 
 Para integrar a biblioteca a biblioteca PlugPagService em aplicativos para Android é
 necessário adicionar a seguinte permissão ao AndroidManifest.xml.
@@ -11,7 +31,7 @@ necessário adicionar a seguinte permissão ao AndroidManifest.xml.
 <permission android:name="br.com.uol.pagseguro.permission.MANAGE_PAYMENTS"/>
 ```
 
-## Intent-filter
+### # Intent-filter
 Para que seu aplicativo possa ser escolhido como aplicativo padrão de pagamento e receber
 Intents de inserção de cartão, é necessário adicionar o seguinte código em seu
 AndroidManifest.xml dentro da sua Activity principal.
@@ -23,3 +43,28 @@ AndroidManifest.xml dentro da sua Activity principal.
 </intent-filter>
 ```
 
+### # Build.gradle
+
+Em seu build.gradle a nivel do app, a propriedade `minSdkVersion` precisa ser level 23. Recurso este exigido pela versão 1.22.0 do plugpagservice da PagSeguro.
+
+```xml 
+...
+defaultConfig {
+        applicationId "com.example.pagseguro_example"
+        minSdkVersion 23
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+...
+```
+
+## :memo: Autores ##
+
+Este projeto foi desenvolvido por:
+<a href="https://github.com/gabuldev" target="_blank">Gabul Dev</a> e
+<a href="https://github.com/jhonathanqz" target="_blank">Jhonathan Queiroz</a>
+
+&#xa0;
+
+<a href="#top">Voltar para o topo</a>

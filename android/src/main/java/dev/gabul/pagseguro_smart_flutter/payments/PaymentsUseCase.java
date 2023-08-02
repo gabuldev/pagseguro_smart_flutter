@@ -91,6 +91,7 @@ public class PaymentsUseCase {
         } else {
             result.setTransactionCode(plugPagTransactionResult.getTransactionCode());
             result.setTransactionId(plugPagTransactionResult.getTransactionId());
+            result.buildResponse(plugPagTransactionResult);
             emitter.onNext(result);
         }
         emitter.onComplete();
