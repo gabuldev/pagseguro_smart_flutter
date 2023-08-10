@@ -11,7 +11,8 @@
 
 ## :dart: Sobre ##
 
-Projeto destinado a facilitar a integração com o SDK da PagSeguro no Flutter.
+Projeto destinado a facilitar a integração com o SDK da PagSeguro Smart no Flutter.
+Funciona somente com máquinas smarts
 
 ## :rocket: Tecnologias ##
 
