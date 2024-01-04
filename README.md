@@ -27,6 +27,15 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ## :checkered_flag: Configuração ##
 
+### # Pubspec.yaml
+Para usar este plugin, adicione `plugpag_flutter` como [dependência](https://flutter.io/using-packages/) ao seu arquivo `pubspec.yaml`.
+
+```yaml
+dependencies:
+  pagseguro_smart_flutter: any
+```
+This will get you the latest version.
+
 ### # Android Manifest
 
 Para integrar a biblioteca a biblioteca PlugPagService em aplicativos para Android é
