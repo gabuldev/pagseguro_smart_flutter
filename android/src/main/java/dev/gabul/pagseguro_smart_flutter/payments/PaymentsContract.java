@@ -2,26 +2,33 @@ package dev.gabul.pagseguro_smart_flutter.payments;
 
 //Contract class
 interface PaymentsContract {
+  void onTransactionSuccess();
 
-    void onTransactionSuccess();
+  void onError(String message);
 
-    void onError(String message);
+  void onMessage(String message);
 
-    void onMessage(String message);
+  void onFinishedResponse(String message);
 
-    void onFinishedResponse(String message);
+  void onLoading(boolean show);
 
-    void onLoading(boolean show);
+  void writeToFile(
+    String transactionCode,
+    String transactionId,
+    String response
+  );
 
-    void writeToFile(String transactionCode, String transactionId, String response);
+  void onAbortedSuccessfully();
 
-    void onAbortedSuccessfully();
+  void disposeDialog();
 
-    void disposeDialog();
+  void onActivationDialog();
 
-    void onActivationDialog();
+  void onAuthProgress(String message);
 
-    void onAuthProgress(String message);
-
-    void onTransactionInfo(String transactionCode, String transactionId, String response);
+  void onTransactionInfo(
+    String transactionCode,
+    String transactionId,
+    String response
+  );
 }

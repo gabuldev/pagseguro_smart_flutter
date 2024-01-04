@@ -194,6 +194,8 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 
 - Débito = `PagseguroSmart.instance().payment.debitPayment(12.50)`
 
+- PIX = `PagseguroSmart.instance().payment.pixPayment.(12.50)`
+
 - Voucher (alimentação) = `PagseguroSmart.instance().payment.voucherPayment(12.50)`
 
 - Estorno = `PagseguroSmart.instance().payment.refund(transactionCode: controller.transactionCode, transactionId: controller.transactionId)`
