@@ -28,6 +28,7 @@ public class PagSeguroSmart {
   private static final String ACTIVE_PINPAD = "paymentActivePinpad";
 
   public PagSeguroSmart(Context context, MethodChannel channel) {
+    //Create instance to PlugPag class
     this.plugPag = new PlugPag(context);
     this.mChannel = channel;
   }

@@ -57,7 +57,7 @@ class PaymentController extends PaymentHandler {
 
   @override
   void onTransactionSuccess() {
-    BotToast.showText(text: "Transacao com successo!");
+    BotToast.showText(text: "Transação com successo!");
   }
 
   @override

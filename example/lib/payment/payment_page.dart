@@ -22,6 +22,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   void initState() {
+    //Inicializar a classe handle para escutar os métodos e retornos da pagseguro
     PagseguroSmart.instance().initPayment(controller);
     super.initState();
   }
@@ -64,6 +65,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         setState(() {
                           controller.clickPayment = true;
                         });
+                        //Chamar o método de pagamento para transação no débito
                         PagseguroSmart.instance()
                             .payment
                             .debitPayment(controller.saleValue);
@@ -78,6 +80,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         setState(() {
                           controller.clickPayment = true;
                         });
+                        //Chamar o método de pagamento para transação no crédito a vista
                         PagseguroSmart.instance()
                             .payment
                             .creditPayment(controller.saleValue);
@@ -92,6 +95,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         setState(() {
                           controller.clickPayment = true;
                         });
+                        //Chamar o método de pagamento para transação no crédito parcelado em 2x
                         PagseguroSmart.instance()
                             .payment
                             .creditPaymentParc(controller.saleValue, 2);
@@ -106,6 +110,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         setState(() {
                           controller.clickPayment = true;
                         });
+                        //Chamar o método de pagamento para transação no voucher
                         PagseguroSmart.instance()
                             .payment
                             .voucherPayment(controller.saleValue);
@@ -120,6 +125,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         setState(() {
                           controller.clickPayment = true;
                         });
+                        //Chamar o método de pagamento para transação no pix
                         PagseguroSmart.instance()
                             .payment
                             .pixPayment(controller.saleValue);
@@ -133,6 +139,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   setState(() {
                     controller.clickPayment = true;
                   });
+                  //Chamar o método para ativar o terminal (pinpad)
                   PagseguroSmart.instance().payment.activePinpad('');
                 },
               ),
@@ -145,6 +152,7 @@ class _PaymentPageState extends State<PaymentPage> {
             onPressed: controller.clickPayment
                 ? () {
                     controller.setSaleValue(0.0);
+                    //Chamar o método para abortar uma transação em andamento (processamento)
                     PagseguroSmart.instance().payment.abortTransaction();
                   }
                 : null,
@@ -157,6 +165,7 @@ class _PaymentPageState extends State<PaymentPage> {
             onPressed: () {
               Future.delayed(const Duration(seconds: 3))
                   .then((value) => setState(() {}));
+                  //Chamar o método para retornar a última transação realizada
               PagseguroSmart.instance().payment.lastTransaction();
             },
             child: const Text("Ultima transação"),
@@ -167,6 +176,7 @@ class _PaymentPageState extends State<PaymentPage> {
           if (controller.enableRefund)
             ElevatedButton(
               onPressed: () {
+                //Chamar o método para estornar uma transação
                 PagseguroSmart.instance().payment.refund(
                     transactionCode: controller.transactionCode,
                     transactionId: controller.transactionId);

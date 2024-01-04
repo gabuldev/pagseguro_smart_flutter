@@ -14,12 +14,14 @@ class PagseguroSmart {
 //GET instance from PagseguroSmart
   static PagseguroSmart instance() {
     _instance ??= PagseguroSmart(const MethodChannel(CHANNEL_NAME));
+    //Create instance from channel
     return _instance!;
   }
 
 //Function to init payment and register handler from notify
   void initPayment(PaymentHandler handler) {
     _payment = Payment(channel: _channel, paymentHandler: handler);
+    //Register handler from notify
   }
 
   Payment get payment {
