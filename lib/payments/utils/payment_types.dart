@@ -1,5 +1,17 @@
 //Fixed payment type hanldle from return functions
-enum PaymentTypeHandler { ON_TRANSACTION_SUCCESS, ON_ERROR, ON_MESSAGE, ON_LOADING, WRITE_TO_FILE, ON_ABORTED_SUCCESSFULLY, DISPOSE_DIALOG, ACTIVE_DIALOG, ON_AUTH_PROGRESS, ON_TRANSACTION_INFO, ON_FINISHED_RESPONSE }
+enum PaymentTypeHandler {
+  ON_TRANSACTION_SUCCESS,
+  ON_ERROR,
+  ON_MESSAGE,
+  ON_LOADING,
+  WRITE_TO_FILE,
+  ON_ABORTED_SUCCESSFULLY,
+  DISPOSE_DIALOG,
+  ACTIVE_DIALOG,
+  ON_AUTH_PROGRESS,
+  ON_TRANSACTION_INFO,
+  ON_FINISHED_RESPONSE
+}
 
 extension StringPaymentHandlerExt on String {
   get handler {
@@ -62,7 +74,17 @@ extension PaymentTypeHandlerExt on PaymentTypeHandler {
 }
 
 //fixed payment type to call from channel
-enum PaymentTypeCall { CREDIT, CREDIT_PARC, DEBIT, PIX, VOUCHER, ABORT, LAST_TRANSACTION, REFUND, ACTIVEPINPAD }
+enum PaymentTypeCall {
+  CREDIT,
+  CREDIT_PARC,
+  DEBIT,
+  PIX,
+  VOUCHER,
+  ABORT,
+  LAST_TRANSACTION,
+  REFUND,
+  ACTIVEPINPAD
+}
 
 enum PaymentTypeCredit { SALESMAN, CLIENT }
 

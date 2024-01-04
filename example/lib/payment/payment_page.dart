@@ -165,7 +165,7 @@ class _PaymentPageState extends State<PaymentPage> {
             onPressed: () {
               Future.delayed(const Duration(seconds: 3))
                   .then((value) => setState(() {}));
-                  //Chamar o método para retornar a última transação realizada
+              //Chamar o método para retornar a última transação realizada
               PagseguroSmart.instance().payment.lastTransaction();
             },
             child: const Text("Ultima transação"),
