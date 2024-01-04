@@ -1,4 +1,4 @@
-## 1.0.2
+## 1.1.1
 
 * Adicionado método pix para pagseguro.
 
