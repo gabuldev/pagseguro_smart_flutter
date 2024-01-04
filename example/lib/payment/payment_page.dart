@@ -113,6 +113,20 @@ class _PaymentPageState extends State<PaymentPage> {
                     : null,
               ),
               ElevatedButton(
+                child: const Text("PIX"),
+                onPressed: controller.enable
+                    ? () {
+                        FocusScope.of(context).unfocus();
+                        setState(() {
+                          controller.clickPayment = true;
+                        });
+                        PagseguroSmart.instance()
+                            .payment
+                            .pixPayment(controller.saleValue);
+                      }
+                    : null,
+              ),
+              ElevatedButton(
                 child: const Text("ATIVAR PINPAD"),
                 onPressed: () async {
                   FocusScope.of(context).unfocus();

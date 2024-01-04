@@ -1,8 +1,5 @@
 package dev.gabul.pagseguro_smart_flutter.transactions;
 
-import java.util.Locale;
-import java.util.Random;
-
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAbortResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;
@@ -12,219 +9,279 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrinterListener;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
-
 import dev.gabul.pagseguro_smart_flutter.core.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import java.util.Locale;
+import java.util.Random;
 
 public class TransactionsUseCase {
 
-    public static final String USER_REFERENCE = "APPDEMO";
-    private final PlugPag mPlugPag;
-    private PlugPagPaymentData mPlugPagPaymentData = null;
-    private final int TYPE_CREDITO = 1;
-    private final int TYPE_DEBITO = 2;
-    private final int TYPE_VOUCHER = 3;
+  public static final String USER_REFERENCE = "APPDEMO";
+  private final PlugPag mPlugPag;
+  private PlugPagPaymentData mPlugPagPaymentData = null;
+  private final int TYPE_CREDITO = 1;
+  private final int TYPE_DEBITO = 2;
+  private final int TYPE_VOUCHER = 3;
 
-    private final int INSTALLMENT_TYPE_A_VISTA = 1;
-    private final int INSTALLMENT_TYPE_PARC_VENDEDOR = 2;
-    private final int INSTALLMENT_TYPE_PARC_COMPRADOR = 3;
+  private final int INSTALLMENT_TYPE_A_VISTA = 1;
+  private final int INSTALLMENT_TYPE_PARC_VENDEDOR = 2;
+  private final int INSTALLMENT_TYPE_PARC_COMPRADOR = 3;
 
-    public TransactionsUseCase(PlugPag plugPag) {
-        mPlugPag = plugPag;
+  public TransactionsUseCase(PlugPag plugPag) {
+    mPlugPag = plugPag;
+  }
+
+  public Observable<ActionResult> doCreditPayment() {
+    return doPayment(
+      new PlugPagPaymentData(
+        TYPE_CREDITO,
+        getAmount(),
+        INSTALLMENT_TYPE_A_VISTA,
+        1,
+        USER_REFERENCE,
+        false
+      )
+    );
+  }
+
+  public Observable<ActionResult> doCreditPaymentWithSellerInstallments() {
+    return doPayment(
+      new PlugPagPaymentData(
+        TYPE_CREDITO,
+        getAmount(),
+        INSTALLMENT_TYPE_PARC_VENDEDOR,
+        getInstallments(),
+        USER_REFERENCE,
+        false
+      )
+    );
+  }
+
+  public Observable<ActionResult> doCreditPaymentWithBuyerInstallments() {
+    return doPayment(
+      new PlugPagPaymentData(
+        TYPE_CREDITO,
+        getAmount(),
+        INSTALLMENT_TYPE_PARC_COMPRADOR,
+        getInstallments(),
+        USER_REFERENCE,
+        false
+      )
+    );
+  }
+
+  public Observable<ActionResult> doDebitPayment() {
+    return doPayment(
+      new PlugPagPaymentData(
+        TYPE_DEBITO,
+        getAmount(),
+        INSTALLMENT_TYPE_A_VISTA,
+        1,
+        USER_REFERENCE,
+        false
+      )
+    );
+  }
+
+  public Observable<ActionResult> doVoucherPayment() {
+    return doPayment(
+      new PlugPagPaymentData(
+        TYPE_VOUCHER,
+        getAmount(),
+        INSTALLMENT_TYPE_A_VISTA,
+        1,
+        USER_REFERENCE,
+        false
+      )
+    );
+  }
+
+  public Observable<ActionResult> doRefundPayment(ActionResult actionResult) {
+    if (actionResult.getTransactionCode() == null) {
+      return Observable.error(new Exception("Nenhuma transação encontrada"));
     }
+    return doRefund(
+      new PlugPagVoidData(
+        actionResult.getTransactionCode(),
+        actionResult.getTransactionId(),
+        true
+      )
+    );
+  }
 
-    public Observable<ActionResult> doCreditPayment() {
-        return doPayment(new PlugPagPaymentData(
-                TYPE_CREDITO,
-                getAmount(),
-                INSTALLMENT_TYPE_A_VISTA,
-                1,
-                USER_REFERENCE,
-                true
-        ));
+  private Observable<ActionResult> doRefund(
+    final PlugPagVoidData plugPagVoidData
+  ) {
+    return Observable.create(emitter -> {
+      ActionResult result = new ActionResult();
+      setListener(emitter, result);
+      setPrintListener(emitter, result);
+      mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
+      PlugPagTransactionResult plugPagTransactionResult = mPlugPag.voidPayment(
+        plugPagVoidData
+      );
+      sendResponse(emitter, plugPagTransactionResult, result);
+    });
+  }
+
+  private Observable<ActionResult> doPayment(
+    final PlugPagPaymentData paymentData
+  ) {
+    mPlugPagPaymentData = paymentData;
+    return Observable.create(emitter -> {
+      mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
+      ActionResult result = new ActionResult();
+      setListener(emitter, result);
+      setPrintListener(emitter, result);
+      PlugPagTransactionResult plugPagTransactionResult = mPlugPag.doPayment(
+        paymentData
+      );
+      sendResponse(emitter, plugPagTransactionResult, result);
+    });
+  }
+
+  private void sendResponse(
+    ObservableEmitter<ActionResult> emitter,
+    PlugPagTransactionResult plugPagTransactionResult,
+    ActionResult result
+  ) {
+    if (plugPagTransactionResult.getResult() != 0) {
+      emitter.onError(
+        new PlugPagException(
+          plugPagTransactionResult.getMessage(),
+          plugPagTransactionResult.getErrorCode()
+        )
+      );
+    } else {
+      result.setTransactionCode(plugPagTransactionResult.getTransactionCode());
+      result.setTransactionId(plugPagTransactionResult.getTransactionId());
+      result.buildResponse(plugPagTransactionResult);
+      emitter.onNext(result);
     }
+    emitter.onComplete();
+  }
 
-    public Observable<ActionResult> doCreditPaymentWithSellerInstallments() {
-        return doPayment(new PlugPagPaymentData(
-                TYPE_CREDITO,
-                getAmount(),
-                INSTALLMENT_TYPE_PARC_VENDEDOR,
-                getInstallments(),
-                USER_REFERENCE,
-                true));
+  private void sendResponse(
+    ObservableEmitter<ActionResult> emitter,
+    PlugPagPrintResult printResult,
+    ActionResult result
+  ) {
+    if (printResult.getResult() != 0) {
+      result.setResult(printResult.getResult());
     }
+    emitter.onComplete();
+  }
 
-    public Observable<ActionResult> doCreditPaymentWithBuyerInstallments() {
-        return doPayment(new PlugPagPaymentData(
-                TYPE_CREDITO,
-                getAmount(),
-                INSTALLMENT_TYPE_PARC_COMPRADOR,
-                getInstallments(),
-                USER_REFERENCE,
-                true));
-    }
+  private void setListener(
+    ObservableEmitter<ActionResult> emitter,
+    ActionResult result
+  ) {
+    mPlugPag.setEventListener(plugPagEventData -> {
+      result.setEventCode(plugPagEventData.getEventCode());
+      result.setMessage(plugPagEventData.getCustomMessage());
+      emitter.onNext(result);
+    });
+  }
 
-    public Observable<ActionResult> doDebitPayment() {
-        return doPayment(new PlugPagPaymentData(
-                TYPE_DEBITO,
-                getAmount(),
-                INSTALLMENT_TYPE_A_VISTA,
-                1,
-                USER_REFERENCE,
-                true));
-    }
-
-    public Observable<ActionResult> doVoucherPayment() {
-        return doPayment(new PlugPagPaymentData(
-                TYPE_VOUCHER,
-                getAmount(),
-                INSTALLMENT_TYPE_A_VISTA,
-                1,
-                USER_REFERENCE,
-                true));
-    }
-
-    public Observable<ActionResult> doRefundPayment(ActionResult actionResult) {
-        if (actionResult.getTransactionCode() == null) {
-            return Observable.error(new Exception("Nenhuma transação encontrada"));
+  private void setPrintListener(
+    ObservableEmitter<ActionResult> emitter,
+    ActionResult result
+  ) {
+    mPlugPag.setPrinterListener(
+      new PlugPagPrinterListener() {
+        @Override
+        public void onError(PlugPagPrintResult printResult) {
+          result.setResult(printResult.getResult());
+          result.setMessage(
+            String.format(
+              "Error %s %s",
+              printResult.getErrorCode(),
+              printResult.getMessage()
+            )
+          );
+          result.setErrorCode(printResult.getErrorCode());
+          emitter.onNext(result);
         }
-        return doRefund(new PlugPagVoidData(actionResult.getTransactionCode(), actionResult.getTransactionId(), true));
-    }
 
-    private Observable<ActionResult> doRefund(final PlugPagVoidData plugPagVoidData) {
-        return Observable.create(emitter -> {
-            ActionResult result = new ActionResult();
-            setListener(emitter, result);
-            setPrintListener(emitter, result);
-            mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
-            PlugPagTransactionResult plugPagTransactionResult = mPlugPag.voidPayment(plugPagVoidData);
-            sendResponse(emitter, plugPagTransactionResult, result);
-        });
-    }
-
-    private Observable<ActionResult> doPayment(final PlugPagPaymentData paymentData) {
-        mPlugPagPaymentData = paymentData;
-        return Observable.create(emitter -> {
-            mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
-            ActionResult result = new ActionResult();
-            setListener(emitter, result);
-            setPrintListener(emitter, result);
-            PlugPagTransactionResult plugPagTransactionResult = mPlugPag.doPayment(paymentData);
-            sendResponse(emitter, plugPagTransactionResult, result);
-        });
-    }
-
-    private void sendResponse(ObservableEmitter<ActionResult> emitter, PlugPagTransactionResult plugPagTransactionResult,
-                              ActionResult result) {
-        if (plugPagTransactionResult.getResult() != 0) {
-            emitter.onError(new PlugPagException(plugPagTransactionResult.getMessage(), plugPagTransactionResult.getErrorCode()));
-        } else {
-            result.setTransactionCode(plugPagTransactionResult.getTransactionCode());
-            result.setTransactionId(plugPagTransactionResult.getTransactionId());
-            result.buildResponse(plugPagTransactionResult);
-            emitter.onNext(result);
+        @Override
+        public void onSuccess(PlugPagPrintResult printResult) {
+          result.setResult(printResult.getResult());
+          result.setMessage(
+            String.format(
+              Locale.getDefault(),
+              "Print OK: Steps [%d]",
+              printResult.getSteps()
+            )
+          );
+          result.setErrorCode(printResult.getErrorCode());
+          emitter.onNext(result);
         }
-        emitter.onComplete();
-    }
+      }
+    );
+  }
 
-    private void sendResponse(ObservableEmitter<ActionResult> emitter, PlugPagPrintResult printResult,
-                              ActionResult result) {
+  public PlugPagPaymentData getEventPaymentData() {
+    return mPlugPagPaymentData;
+  }
 
-        if (printResult.getResult() != 0) {
-            result.setResult(printResult.getResult());
-        }
-        emitter.onComplete();
-    }
+  private int getAmount() {
+    return new Random().nextInt(10000) + 100;
+  }
 
-    private void setListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
-        mPlugPag.setEventListener(plugPagEventData -> {
-            result.setEventCode(plugPagEventData.getEventCode());
-            result.setMessage(plugPagEventData.getCustomMessage());
-            emitter.onNext(result);
-        });
-    }
+  private int getInstallments() {
+    return new Random().nextInt(5) + 1;
+  }
 
-    private void setPrintListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
-        mPlugPag.setPrinterListener(new PlugPagPrinterListener() {
-            @Override
-            public void onError(PlugPagPrintResult printResult) {
-                result.setResult(printResult.getResult());
-                result.setMessage(String.format("Error %s %s", printResult.getErrorCode(), printResult.getMessage()));
-                result.setErrorCode(printResult.getErrorCode());
-                emitter.onNext(result);
-            }
+  public Observable<ActionResult> printStablishmentReceipt() {
+    return Observable.create(emitter -> {
+      ActionResult actionResult = new ActionResult();
+      setPrintListener(emitter, actionResult);
+      PlugPagPrintResult result = mPlugPag.reprintStablishmentReceipt();
+      sendResponse(emitter, result, actionResult);
+    });
+  }
 
-            @Override
-            public void onSuccess(PlugPagPrintResult printResult) {
-                result.setResult(printResult.getResult());
-                result.setMessage(String.format(Locale.getDefault(),"Print OK: Steps [%d]", printResult.getSteps()));
-                result.setErrorCode(printResult.getErrorCode());
-                emitter.onNext(result);
-            }
-        });
-    }
+  public Observable<ActionResult> printCustomerReceipt() {
+    return Observable.create(emitter -> {
+      ActionResult actionResult = new ActionResult();
+      setPrintListener(emitter, actionResult);
+      PlugPagPrintResult result = mPlugPag.reprintCustomerReceipt();
+      sendResponse(emitter, result, actionResult);
+    });
+  }
 
-    public PlugPagPaymentData getEventPaymentData(){
-        return mPlugPagPaymentData;
-    }
+  public Observable<Object> abort() {
+    return Observable.create(emitter -> {
+      mPlugPag.abort();
+      PlugPagAbortResult result = mPlugPag.abort();
 
-    private int getAmount() {
-        return new Random().nextInt(10000) + 100;
-    }
+      if (result.getResult() == 0) {
+        emitter.onNext(new Object());
+      } else {
+        emitter.onError(new Exception("Erro ao abortar"));
+      }
 
-    private int getInstallments() {
-        return new Random().nextInt(5) + 1;
-    }
+      emitter.onComplete();
+    });
+  }
 
-    public Observable<ActionResult> printStablishmentReceipt() {
-        return Observable.create(emitter -> {
-            ActionResult actionResult = new ActionResult();
-            setPrintListener(emitter, actionResult);
-            PlugPagPrintResult result = mPlugPag.reprintStablishmentReceipt();
-            sendResponse(emitter, result, actionResult);
-        });
-    }
+  public Observable<ActionResult> getLastTransaction() {
+    return Observable.create(emitter -> {
+      ActionResult actionResult = new ActionResult();
 
-    public Observable<ActionResult> printCustomerReceipt() {
-        return Observable.create(emitter -> {
-            ActionResult actionResult = new ActionResult();
-            setPrintListener(emitter, actionResult);
-            PlugPagPrintResult result = mPlugPag.reprintCustomerReceipt();
-            sendResponse(emitter, result, actionResult);
-        });
-    }
+      PlugPagTransactionResult result = mPlugPag.getLastApprovedTransaction();
 
-    public Observable<Object> abort() {
-        return Observable.create(emitter -> {
-            mPlugPag.abort();
-            PlugPagAbortResult result = mPlugPag.abort();
+      sendResponse(emitter, result, actionResult);
+    });
+  }
 
-            if (result.getResult() == 0) {
-                emitter.onNext(new Object());
-            } else {
-                emitter.onError(new Exception("Erro ao abortar"));
-            }
+  public PlugPagCustomPrinterLayout getCustomPrinterDialog() {
+    PlugPagCustomPrinterLayout customDialog = new PlugPagCustomPrinterLayout();
+    customDialog.setTitle("Teste: Imprimir via do client?");
+    customDialog.setButtonBackgroundColor("#00ff33");
+    customDialog.setMaxTimeShowPopup(30);
 
-            emitter.onComplete();
-        });
-    }
-
-    public Observable<ActionResult> getLastTransaction() {
-        return Observable.create(emitter -> {
-            ActionResult actionResult = new ActionResult();
-
-            PlugPagTransactionResult result = mPlugPag.getLastApprovedTransaction();
-
-            sendResponse(emitter, result, actionResult);
-        });
-    }
-
-    public PlugPagCustomPrinterLayout getCustomPrinterDialog() {
-        PlugPagCustomPrinterLayout customDialog = new PlugPagCustomPrinterLayout();
-        customDialog.setTitle("Teste: Imprimir via do client?");
-        customDialog.setButtonBackgroundColor("#00ff33");
-
-        return customDialog;
-    }
+    return customDialog;
+  }
 }

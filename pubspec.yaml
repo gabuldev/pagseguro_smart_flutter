@@ -1,6 +1,6 @@
 name: pagseguro_smart_flutter
 description: Integre o Flutter com maquinas smarts da Pagseguro
-version: 1.0.0
+version: 1.0.2
 repository: https://github.com/gabuldev/pagseguro_smart_flutter
 
 environment:
