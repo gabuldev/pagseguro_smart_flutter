@@ -1,4 +1,8 @@
-<h1 align="center">Pagseguro Smart Flutter</h1>
+  <h1 align="center">Pagseguro Smart Flutter</h1>
+
+<div align="center" id="top"> 
+  <img src="https://seeklogo.com/images/P/pagbank-logo-11812EDA89-seeklogo.com.png" alt="LojaExpressVarejista" height=40 />
+</div>
 
 <p align="center">
   <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0; 
