@@ -225,8 +225,22 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 ## :memo: Autores ##
 
 Este projeto foi desenvolvido por:
+
+<div> 
+<a href="https://github.com/gabuldev">
+  <img src="https://avatars.githubusercontent.com/u/32063378?v=4" height=90 />
+</a>
+<a href="https://github.com/jhonathanqz">
+  <img src="https://avatars.githubusercontent.com/u/74057391?s=96&v=4" height=90 />
+</a>
+<br>
 <a href="https://github.com/gabuldev" target="_blank">Gabul Dev</a> e
 <a href="https://github.com/jhonathanqz" target="_blank">Jhonathan Queiroz</a>
+</div>
+
+
+
+
 
 &#xa0;
 
