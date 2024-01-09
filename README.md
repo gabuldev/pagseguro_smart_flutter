@@ -1,4 +1,8 @@
-<h1 align="center">Pagseguro Smart Flutter</h1>
+  <h1 align="center">Pagseguro Smart Flutter</h1>
+
+<div align="center" id="top"> 
+  <img src="https://seeklogo.com/images/P/pagbank-logo-11812EDA89-seeklogo.com.png" alt="LojaExpressVarejista" height=40 />
+</div>
 
 <p align="center">
   <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0; 
@@ -22,6 +26,15 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [PlugPagServiceWrapper]()
 
 ## :checkered_flag: Configuração ##
+
+### # Pubspec.yaml
+Para usar este plugin, adicione `plugpag_flutter` como [dependência](https://flutter.io/using-packages/) ao seu arquivo `pubspec.yaml`.
+
+```yaml
+dependencies:
+  pagseguro_smart_flutter: any
+```
+This will get you the latest version.
 
 ### # Android Manifest
 
@@ -212,8 +225,22 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 ## :memo: Autores ##
 
 Este projeto foi desenvolvido por:
+
+<div> 
+<a href="https://github.com/gabuldev">
+  <img src="https://avatars.githubusercontent.com/u/32063378?v=4" height=90 />
+</a>
+<a href="https://github.com/jhonathanqz">
+  <img src="https://avatars.githubusercontent.com/u/74057391?s=96&v=4" height=90 />
+</a>
+<br>
 <a href="https://github.com/gabuldev" target="_blank">Gabul Dev</a> e
 <a href="https://github.com/jhonathanqz" target="_blank">Jhonathan Queiroz</a>
+</div>
+
+
+
+
 
 &#xa0;
 

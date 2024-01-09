@@ -46,6 +46,7 @@ public class PagseguroSmartFlutterPlugin
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     //Function responsible for listening to methods called by flutter
     if (call.method.startsWith("payment")) {
+      //Call payment method
       pagSeguroSmart.initPayment(call, result);
     } else {
       result.notImplemented();
@@ -57,7 +58,7 @@ public class PagseguroSmartFlutterPlugin
     //Dispose plugin
     channel.setMethodCallHandler(null);
     channel = null;
-    pagSeguroSmart.dispose();
+    pagSeguroSmart.dispose(); //Dispose PagSeguroSmart
     pagSeguroSmart = null;
   }
 }

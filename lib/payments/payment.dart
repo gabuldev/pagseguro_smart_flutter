@@ -20,7 +20,8 @@ class Payment {
   //Function to active pinpad with sdk the PagSeguro
   Future<bool> activePinpad(String actvationCode) async {
     try {
-      await channel.invokeMethod(PaymentTypeCall.ACTIVEPINPAD.method, {"code": actvationCode});
+      await channel.invokeMethod(
+          PaymentTypeCall.ACTIVEPINPAD.method, {"code": actvationCode});
       return true;
     } catch (e) {
       return false;
@@ -29,27 +30,33 @@ class Payment {
 
 //Function to invoke method from credit payment with sdk the PagSeguro
   Future<bool> creditPayment(int value) async {
-    return await channel.invokeMethod(PaymentTypeCall.CREDIT.method, {"value": value});
+    return await channel
+        .invokeMethod(PaymentTypeCall.CREDIT.method, {"value": value});
   }
 
 //Function to invoke method from credit installment payment  with sdk the PagSeguro
-  Future<bool> creditPaymentParc(int value, int parc, {PaymentTypeCredit type = PaymentTypeCredit.CLIENT}) async {
-    return await channel.invokeMethod(PaymentTypeCall.CREDIT_PARC.method, {"value": value, "parc": parc, "type": type.value});
+  Future<bool> creditPaymentParc(int value, int parc,
+      {PaymentTypeCredit type = PaymentTypeCredit.CLIENT}) async {
+    return await channel.invokeMethod(PaymentTypeCall.CREDIT_PARC.method,
+        {"value": value, "parc": parc, "type": type.value});
   }
 
 //Function to invoke method from debit payment with sdk the PagSeguro
   Future<bool> debitPayment(int value) async {
-    return await channel.invokeMethod(PaymentTypeCall.DEBIT.method, {"value": value});
+    return await channel
+        .invokeMethod(PaymentTypeCall.DEBIT.method, {"value": value});
   }
 
   //Function to invoke method from debit payment with sdk the PagSeguro
   Future<bool> pixPayment(int value) async {
-    return await channel.invokeMethod(PaymentTypeCall.PIX.method, {"value": value});
+    return await channel
+        .invokeMethod(PaymentTypeCall.PIX.method, {"value": value});
   }
 
 //Function to invoke method from voucher payment with sdk the PagSeguro
   Future<bool> voucherPayment(int value) async {
-    return await channel.invokeMethod(PaymentTypeCall.VOUCHER.method, {"value": value});
+    return await channel
+        .invokeMethod(PaymentTypeCall.VOUCHER.method, {"value": value});
   }
 
   //OPERATIONS
@@ -65,7 +72,8 @@ class Payment {
 
 //Function to invoke method from refund transaction with sdk the PagSeguro
   Future<bool> refund({String? transactionCode, String? transactionId}) async {
-    return await channel.invokeMethod(PaymentTypeCall.REFUND.method, {"transactionCode": transactionCode, "transactionId": transactionId});
+    return await channel.invokeMethod(PaymentTypeCall.REFUND.method,
+        {"transactionCode": transactionCode, "transactionId": transactionId});
   }
 
 //Function to listen to pagseguro returns in the native environment and notify Flutter
