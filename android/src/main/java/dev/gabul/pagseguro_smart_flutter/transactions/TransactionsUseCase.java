@@ -53,7 +53,7 @@ public class TransactionsUseCase {
         INSTALLMENT_TYPE_PARC_VENDEDOR,
         getInstallments(),
         USER_REFERENCE,
-        false
+        true
       )
     );
   }
@@ -66,7 +66,7 @@ public class TransactionsUseCase {
         INSTALLMENT_TYPE_PARC_COMPRADOR,
         getInstallments(),
         USER_REFERENCE,
-        false
+        true
       )
     );
   }
@@ -79,7 +79,7 @@ public class TransactionsUseCase {
         INSTALLMENT_TYPE_A_VISTA,
         1,
         USER_REFERENCE,
-        false
+        true
       )
     );
   }
@@ -92,7 +92,7 @@ public class TransactionsUseCase {
         INSTALLMENT_TYPE_A_VISTA,
         1,
         USER_REFERENCE,
-        false
+        true
       )
     );
   }
