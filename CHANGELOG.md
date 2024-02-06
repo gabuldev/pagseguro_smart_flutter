@@ -1,3 +1,7 @@
+## 1.1.3
+
+- Correção sobre a impressão do estabelecimento que não estava imprimindo.
+
 ## 1.1.2
 
 - Correção da documentação do plugin.

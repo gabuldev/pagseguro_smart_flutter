@@ -39,7 +39,7 @@ public class PaymentsUseCase {
         INSTALLMENT_TYPE_A_VISTA,
         1,
         USER_REFERENCE,
-        false
+        true
       )
     );
   }
@@ -56,7 +56,7 @@ public class PaymentsUseCase {
         type,
         parc,
         USER_REFERENCE,
-        false
+        true
       )
     );
   }
@@ -69,7 +69,7 @@ public class PaymentsUseCase {
         INSTALLMENT_TYPE_A_VISTA,
         1,
         USER_REFERENCE,
-        false
+        true
       )
     );
   }
@@ -82,7 +82,7 @@ public class PaymentsUseCase {
         INSTALLMENT_TYPE_A_VISTA,
         1,
         USER_REFERENCE,
-        false
+        true
       )
     );
   }
@@ -95,7 +95,7 @@ public class PaymentsUseCase {
         INSTALLMENT_TYPE_A_VISTA,
         1,
         USER_REFERENCE,
-        false,
+        true,
         false,
         false
       )
