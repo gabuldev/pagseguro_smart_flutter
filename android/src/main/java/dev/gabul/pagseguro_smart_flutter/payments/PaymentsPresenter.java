@@ -90,6 +90,7 @@ public class PaymentsPresenter {
           },
           throwable -> {
             mFragment.onMessage(throwable.getMessage());
+            mFragment.onError(throwable.getMessage());
             mFragment.disposeDialog();
           }
         );
@@ -164,22 +165,56 @@ public class PaymentsPresenter {
         .subscribeOn(Schedulers.io())
         .doOnSubscribe(disposable -> mFragment.onLoading(true))
         .doOnComplete(() -> {
-          mFragment.onLoading(false);
-          mFragment.disposeDialog();
-          Log.d("print", "*** throw 1: ");
+            mFragment.onLoading(false);
+            mFragment.onMessage("Terminal ativado");
+            mFragment.onAuthProgress("Terminal ativado");
+
+            mFragment.disposeDialog();
+            Log.d("print", "*** pinpad ativado ");
         })
         .doOnDispose(() -> mFragment.disposeDialog())
         .subscribe(
           actionResult -> mFragment.onAuthProgress(actionResult.getMessage()),
           throwable -> {
-            mFragment.onLoading(false);
-            mFragment.disposeDialog();
-            mFragment.onError(throwable.getMessage());
-            Log.d("print", "*** throw 2: " + throwable.getMessage());
+              mFragment.onLoading(false);
+              mFragment.onMessage("Error ao ativar terminal");
+              mFragment.disposeDialog();
+              mFragment.onError(throwable.getMessage());
+              Log.d("print", "*** throw: " + throwable.getMessage());
           }
         );
     Log.d("print", "*** FIM ATIVAÇÃO: ");
   }
+
+  public void isAuthenticate() {
+        mFragment.onMessage("Obtendo status do terminal");
+        mSubscribe = mUseCase.isAuthenticated()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> mFragment.onLoading(true))
+                .doOnComplete(()-> {
+                    mFragment.onLoading(false);
+                    mFragment.disposeDialog();
+                    Log.d("print", "*** pinpad ativado ");
+                })
+                .doOnDispose(() -> mFragment.disposeDialog())
+                .subscribe(
+                        result -> {
+                            if(result){
+                                mFragment.onAuthProgress("Terminal ativado");
+                            }else {
+                                mFragment.onAuthProgress("Terminal não ativado");
+                            }
+                        },
+                        throwable -> {
+                            mFragment.onLoading(false);
+                            mFragment.onMessage("Error ao obter status do terminal");
+                            mFragment.disposeDialog();
+                            mFragment.onError(throwable.getMessage());
+                            Log.d("print", "*** throw: " + throwable.getMessage());
+                        });
+        Log.d("print", "*** FIM ATIVAÇÃO: ");
+    }
 
   public void getLastTransaction() {
     mSubscribe =
