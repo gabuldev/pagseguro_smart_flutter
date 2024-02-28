@@ -1,3 +1,8 @@
+## 1.1.4
+
+- Correção do status de erro no método de transação
+- Configurado nova função para obter status de ativação do terminal pinpad
+
 ## 1.1.3
 
 - Correção sobre a impressão do estabelecimento que não estava imprimindo.

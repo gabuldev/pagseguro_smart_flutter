@@ -3,6 +3,7 @@ package dev.gabul.pagseguro_smart_flutter.core;
 import android.content.Context;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAppIdentification;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;
 import dev.gabul.pagseguro_smart_flutter.payments.PaymentsPresenter;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -27,9 +28,14 @@ public class PagSeguroSmart {
 
   private static final String ACTIVE_PINPAD = "paymentActivePinpad";
 
+  private static final String PINPAD_AUTHENTICATED = "paymentIsAuthenticated";
+
   public PagSeguroSmart(Context context, MethodChannel channel) {
-    //Create instance to PlugPag class
-    this.plugPag = new PlugPag(context);
+    PlugPag instancePlugPag = new PlugPag(context);
+    PlugPagCustomPrinterLayout customDialog = new PlugPagCustomPrinterLayout();
+    customDialog.setMaxTimeShowPopup(30);
+    instancePlugPag.setPlugPagCustomPrinterLayout(customDialog);
+    this.plugPag = instancePlugPag;
     this.mChannel = channel;
   }
 
@@ -42,6 +48,8 @@ public class PagSeguroSmart {
       this.payment.doDebitPayment(call.argument("value"));
     } else if (call.method.equals(ACTIVE_PINPAD)) {
       this.payment.activate(call.argument("code"));
+    } else if (call.method.equals(PINPAD_AUTHENTICATED)) {
+      this.payment.isAuthenticate();
     } else if (call.method.equals(PAYMENT_PIX)) {
       this.payment.doPixPayment(call.argument("value"));
     } else if (call.method.equals(PAYMENT_CREDIT)) {

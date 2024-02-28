@@ -13,27 +13,29 @@
 
 <br>
 
-## :dart: Sobre ##
+## :dart: Sobre
 
 Projeto destinado a facilitar a integração com o SDK da PagSeguro Smart no Flutter.
 Funciona somente com máquinas smarts
 
-## :rocket: Tecnologias ##
+## :rocket: Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
 - [Flutter](https://flutter.dev/)
 - [PlugPagServiceWrapper]()
 
-## :checkered_flag: Configuração ##
+## :checkered_flag: Configuração
 
 ### # Pubspec.yaml
+
 Para usar este plugin, adicione `plugpag_flutter` como [dependência](https://flutter.io/using-packages/) ao seu arquivo `pubspec.yaml`.
 
 ```yaml
 dependencies:
   pagseguro_smart_flutter: any
 ```
+
 This will get you the latest version.
 
 ### # Android Manifest
@@ -46,6 +48,7 @@ necessário adicionar a seguinte permissão ao AndroidManifest.xml.
 ```
 
 ### # Intent-filter
+
 Para que seu aplicativo possa ser escolhido como aplicativo padrão de pagamento e receber
 Intents de inserção de cartão, é necessário adicionar o seguinte código em seu
 AndroidManifest.xml dentro da sua Activity principal.
@@ -61,7 +64,7 @@ AndroidManifest.xml dentro da sua Activity principal.
 
 Em seu build.gradle a nivel do app, a propriedade `minSdkVersion` precisa ser level 23. Recurso este exigido pela versão 1.22.0 do plugpagservice da PagSeguro.
 
-```xml 
+```xml
 ...
 defaultConfig {
         applicationId "com.example.pagseguro_example"
@@ -77,7 +80,7 @@ defaultConfig {
 
 Para começar é necessário criar uma classe que implemente ´PaymentHandler´, sendo que essa é a responsável por monitorar e retornar os dados da pagseguro.
 
-### Criando classe PaymentController 
+### Criando classe PaymentController
 
 ```
 class PaymentController extends PaymentHandler {
@@ -173,34 +176,44 @@ class PaymentController extends PaymentHandler {
 ```
 
 #### Métodos da ´PaymentHandler´
+
 ##### onAbortedSuccessfully
+
 Acionado quando uma transação de abort é concluída com sucesso.
 
 ##### onAuthProgress
+
 Acionado quando uma transação está em progresso.
+Retorno do status do Pinpad também é mapeado aqui.
 
 ##### onError
+
 Acionado quando uma transação retorna um estado de ´Erro´, devolvendo como parâmetro uma ´String´ com a mensagem.
 
 ##### onMessage
+
 Método responsável por devolver para o usuário uma mensagem retornada da PagSeguro.
 
 ##### onFinishedResponse
+
 Método responsável por devolver uma response da transação.
 
 ##### onTransactionSuccess
+
 Método acionado quando a transação foi concluída com sucesso.
 
 ##### onTransactionInfo
+
 Método resposável por devolver uma response completa da transação, sendo possível mapear vários campos retornados.
 
-
 #### Iniciar transação
+
 Para iniciar a transação é necessário primeiro chamar a função de ativação do PinPad, passando como parâmetro o código de ativação daquele POS (código este informado na sua conta PagBank).
 
 `PagseguroSmart.instance().payment.activePinpad('12345');`
 
 Logo após ativação, o SDK da PagSeguro fornece algumas opções de transação como:
+
 - Crédito = `PagseguroSmart.instance().payment.creditPayment(12.50)`
 
 - Crédito Parcelado = `PagseguroSmart.instance().payment.creditPaymentParc(controller.saleValue, 2)`
@@ -217,12 +230,11 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 
 - Última transação = `PagseguroSmart.instance().payment.lastTransaction()`
 
+- Obter status de ativação do Pinpad = `PagseguroSmart.instance().payment.isAuthenticated()`
 
-**Obs: Por padrão o SDK da PagSeguro SEMPRE imprime a via do estabelecimento. Após a impressão da via do estabelecimento, um popUp é exibido perguntando se deseja a via do consumidor.
+\*\*Obs: Por padrão o SDK da PagSeguro SEMPRE imprime a via do estabelecimento. Após a impressão da via do estabelecimento, um popUp é exibido perguntando se deseja a via do consumidor.
 
-
-
-## :memo: Autores ##
+## :memo: Autores
 
 Este projeto foi desenvolvido por:
 
@@ -237,10 +249,6 @@ Este projeto foi desenvolvido por:
 <a href="https://github.com/gabuldev" target="_blank">Gabul Dev</a> e
 <a href="https://github.com/jhonathanqz" target="_blank">Jhonathan Queiroz</a>
 </div>
-
-
-
-
 
 &#xa0;
 
