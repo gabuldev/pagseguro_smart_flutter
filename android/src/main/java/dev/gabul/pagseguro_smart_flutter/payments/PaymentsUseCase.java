@@ -15,7 +15,6 @@ import io.reactivex.ObservableEmitter;
 
 public class PaymentsUseCase {
 
-  public static final String USER_REFERENCE = "APPDEMO";
   private final PlugPag mPlugPag;
 
   private final int TYPE_CREDITO = 1;
@@ -31,15 +30,23 @@ public class PaymentsUseCase {
     mPlugPag = plugPag;
   }
 
-  public Observable<ActionResult> doCreditPayment(int value) {
+  public Observable<ActionResult> doCreditPayment(
+    int value,
+    String userReference,
+    Boolean printReceipt, 
+    Boolean partialPay, 
+    Boolean isCarne
+  ) {
     return doPayment(
       new PlugPagPaymentData(
         TYPE_CREDITO,
         value,
         INSTALLMENT_TYPE_A_VISTA,
         1,
-        USER_REFERENCE,
-        true
+        userReference,
+        printReceipt,
+        partialPay,
+        isCarne
       )
     );
   }
@@ -47,7 +54,11 @@ public class PaymentsUseCase {
   public Observable<ActionResult> doCreditPaymentParc(
     int value,
     int type,
-    int parc
+    int parc,
+    String userReference,
+    Boolean printReceipt, 
+    Boolean partialPay, 
+    Boolean isCarne    
   ) {
     return doPayment(
       new PlugPagPaymentData(
@@ -55,52 +66,100 @@ public class PaymentsUseCase {
         value,
         type,
         parc,
-        USER_REFERENCE,
-        true
+        userReference,
+        printReceipt,
+        partialPay,
+        isCarne
       )
     );
   }
 
-  public Observable<ActionResult> doDebitPayment(int value) {
+  public Observable<ActionResult> doDebitPayment(
+    int value,
+    String userReference,
+    Boolean printReceipt, 
+    Boolean partialPay, 
+    Boolean isCarne
+  ) {
     return doPayment(
       new PlugPagPaymentData(
         TYPE_DEBITO,
         value,
         INSTALLMENT_TYPE_A_VISTA,
         1,
-        USER_REFERENCE,
-        true
+        userReference,
+        printReceipt,
+        partialPay,
+        isCarne
       )
     );
   }
 
-  public Observable<ActionResult> doVoucherPayment(int value) {
+  public Observable<ActionResult> doVoucherPayment(
+    int value,
+    String userReference,
+    Boolean printReceipt, 
+    Boolean partialPay, 
+    Boolean isCarne
+  ) {
     return doPayment(
       new PlugPagPaymentData(
         TYPE_VOUCHER,
         value,
         INSTALLMENT_TYPE_A_VISTA,
         1,
-        USER_REFERENCE,
-        true
+        userReference,
+        printReceipt,
+        partialPay,
+        isCarne
       )
     );
   }
 
-  public Observable<ActionResult> doPixPayment(int value) {
+  public Observable<ActionResult> doPixPayment(
+    int value,
+    String userReference,
+    Boolean printReceipt, 
+    Boolean partialPay, 
+    Boolean isCarne
+  ) {
     return doPayment(
       new PlugPagPaymentData(
         TYPE_PIX,
         value,
         INSTALLMENT_TYPE_A_VISTA,
         1,
-        USER_REFERENCE,
-        true,
-        false,
-        false
+        userReference,
+        printReceipt,
+        partialPay,
+        isCarne
       )
     );
   }
+
+  public Observable<ActionResult> doStartPayment(
+    int type,
+    int amount,
+    int installmentType,
+    int installments,    
+    String userReference,
+    Boolean printReceipt, 
+    Boolean partialPay, 
+    Boolean isCarne    
+  ) {
+    return doPayment(
+      new PlugPagPaymentData(
+        type,
+        amount,
+        installmentType,
+        installments,
+        userReference,
+        printReceipt,
+        partialPay,
+        isCarne
+      )
+    );
+  }  
 
   private Observable<ActionResult> doPayment(
     final PlugPagPaymentData paymentData

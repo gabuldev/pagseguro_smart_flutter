@@ -25,6 +25,7 @@ public class PagSeguroSmart {
   private static final String LAST_TRANSACTION = "paymentLastTransaction";
   private static final String REFUND = "paymentRefund";
   private static final String PAYMENT_PIX = "paymentPix";
+  private static final String START_PAYMENT = "startPayment";
 
   private static final String ACTIVE_PINPAD = "paymentActivePinpad";
 
@@ -45,23 +46,62 @@ public class PagSeguroSmart {
     }
 
     if (call.method.equals(PAYMENT_DEBIT)) {
-      this.payment.doDebitPayment(call.argument("value"));
+      this.payment.doDebitPayment(
+          (int) call.argument("value"),
+          (String) call.argument("userReference"),
+          (Boolean) call.argument("printReceipt"),
+          (Boolean) call.argument("partialPay"),
+          (Boolean) call.argument("isCarne")        
+        );
     } else if (call.method.equals(ACTIVE_PINPAD)) {
       this.payment.activate(call.argument("code"));
     } else if (call.method.equals(PINPAD_AUTHENTICATED)) {
       this.payment.isAuthenticate();
     } else if (call.method.equals(PAYMENT_PIX)) {
-      this.payment.doPixPayment(call.argument("value"));
+      this.payment.doPixPayment(
+          (int) call.argument("value"),
+          (String) call.argument("userReference"),
+          (Boolean) call.argument("printReceipt"),
+          (Boolean) call.argument("partialPay"),
+          (Boolean) call.argument("isCarne")        
+        );
     } else if (call.method.equals(PAYMENT_CREDIT)) {
-      this.payment.creditPayment(call.argument("value"));
+      this.payment.creditPayment(
+          (int) call.argument("value"),
+          (String) call.argument("userReference"),
+          (Boolean) call.argument("printReceipt"),
+          (Boolean) call.argument("partialPay"),
+          (Boolean) call.argument("isCarne")        
+        );
     } else if (call.method.equals(PAYMENT_CREDIT_PARC)) {
       this.payment.creditPaymentParc(
-          call.argument("value"),
-          call.argument("type"),
-          call.argument("parc")
+          (int) call.argument("value"),
+          (int) call.argument("type"),
+          (int) call.argument("parc"),
+          (String) call.argument("userReference"),
+          (Boolean) call.argument("printReceipt"),
+          (Boolean) call.argument("partialPay"),
+          (Boolean) call.argument("isCarne")
         );
     } else if (call.method.equals(PAYMENT_VOUCHER)) {
-      this.payment.doVoucherPayment(call.argument("value"));
+      this.payment.doVoucherPayment(
+          (int) call.argument("value"),
+          (String) call.argument("userReference"),
+          (Boolean) call.argument("printReceipt"),
+          (Boolean) call.argument("partialPay"),
+          (Boolean) call.argument("isCarne")        
+        );
+    } else if (call.method.equals(START_PAYMENT)) {
+      this.payment.startPayment(
+          (int) call.argument("type"),
+          (int) call.argument("amount"),
+          (int) call.argument("installmentType"),
+          (int) call.argument("installments"),
+          (String) call.argument("userReference"),
+          (Boolean) call.argument("printReceipt"),
+          (Boolean) call.argument("partialPay"),
+          (Boolean) call.argument("isCarne")
+        );
     } else if (call.method.equals(PAYMENT_ABORT)) {
       this.payment.abortTransaction();
       result.success(true);

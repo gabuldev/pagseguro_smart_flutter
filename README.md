@@ -224,6 +224,8 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 
 - Voucher (alimentação) = `PagseguroSmart.instance().payment.voucherPayment(12.50)`
 
+- startPayment(Permite chamar diretamente o método startPayment da biblioteca PlugPag) = `PagseguroSmart.instance().payment.startPayment( int type, int amount, int installmentType, int installments, String userReference, bool printReceipt, bool partialPay, bool isCarne)`
+
 - Estorno = `PagseguroSmart.instance().payment.refund(transactionCode: controller.transactionCode, transactionId: controller.transactionId)`
 
 - Abortar transação = `PagseguroSmart.instance().payment.abortTransaction()`
