@@ -1,3 +1,7 @@
+## 1.1.5
+
+- Adicionado parâmetros nos métodos de pagamento para informar userReference, printReceipt, partialPay e isCarne
+- Disponibilizado método startPayment da biblioteca PlugPag
 ## 1.1.4
 
 - Correção do status de erro no método de transação
