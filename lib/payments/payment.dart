@@ -109,7 +109,7 @@ class Payment {
   }
 
 //Function to invoke method from credit installment payment  with sdk the PagSeguro
-  Future<bool> startPayment(int type, int amount,
+  Future<bool> startPayment(PaymentType type, int amount,
       {PaymentTypeCredit installmentType = PaymentTypeCredit.CLIENT,
       int installments = 1,
       String userReference = USER_REFERENCE,
