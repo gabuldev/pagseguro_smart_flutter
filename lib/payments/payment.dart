@@ -117,7 +117,7 @@ class Payment {
       bool partialPay = false,
       bool isCarne = false}) async {
     return await channel.invokeMethod(PaymentTypeCall.START_PAYMENT.method, {
-      "type": type,
+      "type": type.value,
       "amount": amount,
       "installmentType": installmentType.value,
       "installments": installments,
