@@ -62,7 +62,7 @@ AndroidManifest.xml dentro da sua Activity principal.
 
 ### # Build.gradle
 
-Em seu build.gradle a nivel do app, a propriedade `minSdkVersion` precisa ser level 23. Recurso este exigido pela versão 1.22.0 do plugpagservice da PagSeguro.
+Em seu build.gradle a nivel do app, a propriedade `minSdkVersion` precisa ser level 23. Recurso este exigido pela versão 1.27.2 do plugpagservice da PagSeguro.
 
 ```xml
 ...
@@ -234,7 +234,7 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 
 - Obter status de ativação do Pinpad = `PagseguroSmart.instance().payment.isAuthenticated()`
 
-\*\*Obs: Por padrão o SDK da PagSeguro SEMPRE imprime a via do estabelecimento. Após a impressão da via do estabelecimento, um popUp é exibido perguntando se deseja a via do consumidor.
+\*\*Obs: A via do estabelecimento do estabelecimento pode ser impressa ou não baseada no parâmetro printReceipt. Após a finalização do pagamento, um popUp é exibido perguntando se deseja a via do consumidor.
 
 ## :memo: Autores
 
