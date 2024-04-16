@@ -1,4 +1,6 @@
 import 'package:flutter/services.dart';
+import 'package:pagseguro_smart_flutter/payments/handler/nfc_handler.dart';
+import 'package:pagseguro_smart_flutter/payments/nfc.dart';
 
 import 'payments/handler/payment_handler.dart';
 import 'payments/payment.dart';
@@ -6,6 +8,7 @@ import 'payments/payment.dart';
 class PagseguroSmart {
   final MethodChannel _channel;
   Payment? _payment;
+  Nfc? _nfc;
 
   static PagseguroSmart? _instance;
 
@@ -24,10 +27,23 @@ class PagseguroSmart {
     //Register handler from notify
   }
 
+  //Function to init nfc and register handler from notify
+  void initNfc(NfcHandler handler) {
+    _nfc = Nfc(channel: _channel, nfcHandler: handler);
+    //Register handler from notify
+  }
+
   Payment get payment {
     if (_payment == null) {
       throw "PAYMENT NEED INITIALIZE! \n TRY: PagseguroSmart._instance.initPayment(handler)";
     }
     return _payment!;
+  }
+
+  Nfc get nfc {
+    if (_nfc == null) {
+      throw "NFC NEED INITIALIZE! \n TRY: PagseguroSmart._instance.initNfc(handler)";
+    }
+    return _nfc!;
   }
 }

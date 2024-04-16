@@ -1,5 +1,4 @@
 package dev.gabul.pagseguro_smart_flutter;
-
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -24,12 +23,11 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 public class PagseguroSmartFlutterPlugin
   implements FlutterPlugin, MethodCallHandler {
-
   private static final String CHANNEL_NAME = "pagseguro_smart_flutter";
   private MethodChannel channel;
   private Context context;
   private PagSeguroSmart pagSeguroSmart;
-
+  
   public PagseguroSmartFlutterPlugin() {}
 
   @Override
@@ -45,7 +43,7 @@ public class PagseguroSmartFlutterPlugin
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     //Function responsible for listening to methods called by flutter
-    if (call.method.startsWith("payment")) {
+    if (call.method.startsWith("payment") || call.method.equals("startPayment")) {
       //Call payment method
       pagSeguroSmart.initPayment(call, result);
     } else {

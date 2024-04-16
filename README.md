@@ -44,7 +44,7 @@ Para integrar a biblioteca a biblioteca PlugPagService em aplicativos para Andro
 necessário adicionar a seguinte permissão ao AndroidManifest.xml.
 
 ```xml
-<permission android:name="br.com.uol.pagseguro.permission.MANAGE_PAYMENTS"/>
+<uses-permission android:name="br.com.uol.pagseguro.permission.MANAGE_PAYMENTS"/>
 ```
 
 ### # Intent-filter

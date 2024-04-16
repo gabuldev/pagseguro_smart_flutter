@@ -140,6 +140,7 @@ class Payment {
           );
         }
         break;
+
       default:
         throw "METHOD NOT IMPLEMENTED";
     }
