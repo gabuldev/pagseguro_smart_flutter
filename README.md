@@ -234,6 +234,49 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 
 \*\*Obs: Por padrão o SDK da PagSeguro SEMPRE imprime a via do estabelecimento. Após a impressão da via do estabelecimento, um popUp é exibido perguntando se deseja a via do consumidor.
 
+---
+
+## NfcSmart
+
+Igualmente a classe PagSeguroSmart, essa também é necessário configurar um hanlder e inicializar o plugin antes de qualquer função.
+
+Handler -> Você precisa em uma hanlder que extenda de `NfcHandler`
+
+Inicializar -> NfcSmart.instance.initNfc(handler);
+
+Para a classe responsável com a integração por meio do NFC, temos os seguintes métodos:
+`NfcSmart.instance.nfc.<método>`
+
+//Responsável por fechar o handler de chamadas
+Future<void> closeMethodCallHandler();
+
+//Responsável por abortar uma transação em andamento
+Future<bool> abortTransaction();
+
+//Responsável por obter a última transação
+Future<bool> lastTransaction();
+
+//Responsável por realizar o estorno de uma transação
+Future<bool> refund({required String transactionCode, required String transactionId});
+
+//Responsável por ler as informações apartir do NFC
+Future<bool> readNfc(idEvento);
+
+//Responsável pela escrita do método NFC
+Future<bool> writeNfc(valor, nome, cpf, numeroTag, celular, aberto, idEvento);
+
+//Responsável por regravar informações
+Future<bool> reWriteNfc(valor, idEvento);
+
+//Responsável por fazer o estorno de uma transação utilizando NFC
+Future<bool> refundNfc(valor, idEvento);
+
+//Responsável por formatar os dados do cartão
+Future<bool> formatNfc();
+
+//Responsável por chamar função de débito utilizando NFC
+Future<bool> debitNfc(idEvento, valor);
+
 ## :memo: Autores
 
 Este projeto foi desenvolvido por:
