@@ -8,6 +8,8 @@ import dev.gabul.pagseguro_smart_flutter.nfc.NFCFragment;
 import dev.gabul.pagseguro_smart_flutter.nfc.NFCPresenter;
 import dev.gabul.pagseguro_smart_flutter.nfc.usecase.NFCUseCase;
 import dev.gabul.pagseguro_smart_flutter.payments.PaymentsPresenter;
+import dev.gabul.pagseguro_smart_flutter.printer.PrinterPresenter;
+import dev.gabul.pagseguro_smart_flutter.printer.usecase.PrinterUsecase;
 import dev.gabul.pagseguro_smart_flutter.user.usecase.DebitUserUseCase;
 import dev.gabul.pagseguro_smart_flutter.user.usecase.EditUserUseCase;
 import dev.gabul.pagseguro_smart_flutter.user.usecase.GetUserUseCase;
@@ -47,6 +49,9 @@ public class PagSeguroSmart {
   private static final String REFUND_NFC = "paymentReFundNfc";
   private static final String DEBIT_NFC = "paymentDebitNfc";
 
+  //Printer
+  private static final String PRINTER_FILE = "paymentPrinterFile";
+
   public PagSeguroSmart(Context context, MethodChannel channel) {
     PlugPag instancePlugPag = new PlugPag(context);
     PlugPagCustomPrinterLayout customDialog = new PlugPagCustomPrinterLayout();
@@ -56,6 +61,12 @@ public class PagSeguroSmart {
     this.mChannel = channel;
   }
   public void initPayment(MethodCall call, MethodChannel.Result result) {
+    if(call.method.equals(PRINTER_FILE)){
+      PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
+      String filePath = call.argument("path");
+      printerPresenter.printerFromFile(filePath);
+    }
+
     if (this.payment == null) {
       this.payment = new PaymentsPresenter(this.plugPag, this.mChannel);
     }
