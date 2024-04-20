@@ -1,5 +1,19 @@
 //Fixed payment type hanldle from return functions
-enum PaymentTypeHandler { ON_TRANSACTION_SUCCESS, ON_ERROR, ON_MESSAGE, ON_LOADING, WRITE_TO_FILE, ON_ABORTED_SUCCESSFULLY, DISPOSE_DIALOG, ACTIVE_DIALOG, ON_AUTH_PROGRESS, ON_TRANSACTION_INFO, ON_FINISHED_RESPONSE }
+// ignore_for_file: constant_identifier_names
+
+enum PaymentTypeHandler {
+  ON_TRANSACTION_SUCCESS,
+  ON_ERROR,
+  ON_MESSAGE,
+  ON_LOADING,
+  WRITE_TO_FILE,
+  ON_ABORTED_SUCCESSFULLY,
+  DISPOSE_DIALOG,
+  ACTIVE_DIALOG,
+  ON_AUTH_PROGRESS,
+  ON_TRANSACTION_INFO,
+  ON_FINISHED_RESPONSE
+}
 
 extension StringPaymentHandlerExt on String {
   get handler {
@@ -62,9 +76,24 @@ extension PaymentTypeHandlerExt on PaymentTypeHandler {
 }
 
 //fixed payment type to call from channel
-enum PaymentTypeCall { CREDIT, CREDIT_PARC, DEBIT, PIX, VOUCHER, ABORT, LAST_TRANSACTION, REFUND, ACTIVEPINPAD, PINPAD_AUTHENTICATED }
+enum PaymentTypeCall {
+  CREDIT,
+  CREDIT_PARC,
+  DEBIT,
+  PIX,
+  VOUCHER,
+  ABORT,
+  LAST_TRANSACTION,
+  REFUND,
+  ACTIVEPINPAD,
+  PINPAD_AUTHENTICATED,
+  START_PAYMENT
+}
 
-enum PaymentTypeCredit { SALESMAN, CLIENT }
+enum PaymentTypeCredit {
+  SALESMAN,
+  CLIENT,
+}
 
 extension PaymentTypeCreditExt on PaymentTypeCredit {
   get value {
@@ -101,6 +130,42 @@ extension PaymentTypeCallExt on PaymentTypeCall {
         return "paymentIsAuthenticated";
       case PaymentTypeCall.PIX:
         return "paymentPix";
+      case PaymentTypeCall.START_PAYMENT:
+        return "startPayment";
+    }
+  }
+}
+
+enum PaymentType {
+  TYPE_CREDITO,
+  TYPE_DEBITO,
+  TYPE_VOUCHER,
+  TYPE_QRCODE,
+  TYPE_PIX,
+  TYPE_PREAUTO_CARD,
+  TYPE_QRCODE_CREDITO,
+  TYPE_PREAUTO_KEYED,
+}
+
+extension PaymentTypeExt on PaymentType {
+  get value {
+    switch (this) {
+      case PaymentType.TYPE_CREDITO:
+        return 1;
+      case PaymentType.TYPE_DEBITO:
+        return 2;
+      case PaymentType.TYPE_VOUCHER:
+        return 3;
+      case PaymentType.TYPE_QRCODE:
+        return 4;
+      case PaymentType.TYPE_PIX:
+        return 5;
+      case PaymentType.TYPE_PREAUTO_CARD:
+        return 6;
+      case PaymentType.TYPE_QRCODE_CREDITO:
+        return 7;
+      case PaymentType.TYPE_PREAUTO_KEYED:
+        return 8;
     }
   }
 }

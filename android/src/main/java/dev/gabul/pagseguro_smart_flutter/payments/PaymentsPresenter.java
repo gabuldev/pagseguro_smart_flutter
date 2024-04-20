@@ -28,29 +28,33 @@ public class PaymentsPresenter {
     mFragment = new PaymentsFragment(channel);
   }
 
-  public void creditPaymentParc(int value, int type, int parc) {
-    doAction(mUseCase.doCreditPaymentParc(value, type, parc), value);
+  public void creditPaymentParc(int value, int type, int parc, String userReference, Boolean printReceipt, Boolean partialPay, Boolean isCarne) {
+    doAction(mUseCase.doCreditPaymentParc(value, type, parc, userReference, printReceipt, partialPay, isCarne), value);
   }
 
-  public void creditPayment(int value) {
-    doAction(mUseCase.doCreditPayment(value), value);
+  public void creditPayment(int value, String userReference, Boolean printReceipt, Boolean partialPay, Boolean isCarne) {
+    doAction(mUseCase.doCreditPayment(value, userReference, printReceipt, partialPay, isCarne), value);
   }
 
-  public void doDebitPayment(int value) {
-    doAction(mUseCase.doDebitPayment(value), value);
+  public void doDebitPayment(int value, String userReference, Boolean printReceipt, Boolean partialPay, Boolean isCarne) {
+    doAction(mUseCase.doDebitPayment(value, userReference, printReceipt, partialPay, isCarne), value);
   }
 
-  public void doPixPayment(int value) {
-    doAction(mUseCase.doPixPayment(value), value);
+  public void doPixPayment(int value, String userReference, Boolean printReceipt, Boolean partialPay, Boolean isCarne) {
+    doAction(mUseCase.doPixPayment(value, userReference, printReceipt, partialPay, isCarne), value);
   }
 
-  public void doVoucherPayment(int value) {
-    doAction(mUseCase.doVoucherPayment(value), value);
+  public void doVoucherPayment(int value, String userReference, Boolean printReceipt, Boolean partialPay, Boolean isCarne) {
+    doAction(mUseCase.doVoucherPayment(value, userReference, printReceipt, partialPay, isCarne), value);
   }
 
   public void doRefund(String transactionCode, String transactionId) {
     doAction(mUseCase.doRefund(transactionCode, transactionId), 0);
   }
+
+  public void startPayment(int type, int amount, int installmentType, int installments, String userReference, Boolean printReceipt, Boolean partialPay, Boolean isCarne) {
+    doAction(mUseCase.doStartPayment(type, amount, installmentType, installments, userReference, printReceipt, partialPay, isCarne), amount);
+  }  
 
   private void doAction(Observable<ActionResult> action, int value) {
     mSubscribe =

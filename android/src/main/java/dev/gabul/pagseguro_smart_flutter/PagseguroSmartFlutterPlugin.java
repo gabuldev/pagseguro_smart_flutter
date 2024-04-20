@@ -45,7 +45,7 @@ public class PagseguroSmartFlutterPlugin
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     //Function responsible for listening to methods called by flutter
-    if (call.method.startsWith("payment")) {
+    if (call.method.startsWith("payment") || call.method.equals("startPayment")) {
       //Call payment method
       pagSeguroSmart.initPayment(call, result);
     } else {
