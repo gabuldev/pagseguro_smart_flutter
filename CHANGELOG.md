@@ -3,6 +3,13 @@
 - Nova versão do SDK da PagSeguro 1.27.2
 - Adicionado funções de NFC para transação
 
+## 1.1.5
+
+- Adicionado parâmetros nos métodos de pagamento para informar userReference, printReceipt, partialPay e isCarne
+- Disponibilizado método startPayment da biblioteca PlugPag
+- Alterado versão plugpagservice.wrapper para 1.27.2
+- Adicionada a resposta todas as propriedades do objeto PlugPagTransactionResult - https://pagseguro.github.io/pagseguro-sdk-plugpagservicewrapper/-wrapper-p-p-s/br.com.uol.pagseguro.plugpagservice.wrapper/-plug-pag-transaction-result/index.html
+
 ## 1.1.4
 
 - Correção do status de erro no método de transação

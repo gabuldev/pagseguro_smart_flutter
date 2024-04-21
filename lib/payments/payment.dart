@@ -1,3 +1,4 @@
+// ignore_for_file: constant_identifier_names
 import 'package:flutter/services.dart';
 
 import 'package:pagseguro_smart_flutter/payments/handler/payment_handler.dart';
@@ -5,6 +6,7 @@ import 'package:pagseguro_smart_flutter/payments/utils/payment_types.dart';
 
 //Fixed channel name
 const CHANNEL_NAME = "pagseguro_smart_flutter";
+const USER_REFERENCE = "SMARTFLUTTER"; //Only letters and numbers
 
 class Payment {
   final MethodChannel channel;
@@ -18,9 +20,10 @@ class Payment {
   }
   //Create external functions from invoke methodChannel
   //Function to active pinpad with sdk the PagSeguro
-  Future<bool> activePinpad(String actvationCode) async {
+  Future<bool> activePinpad(String activationCode) async {
     try {
-      await channel.invokeMethod(PaymentTypeCall.ACTIVEPINPAD.method, {"code": actvationCode});
+      await channel.invokeMethod(
+          PaymentTypeCall.ACTIVEPINPAD.method, {"code": activationCode});
       return true;
     } catch (e) {
       return false;
@@ -28,28 +31,101 @@ class Payment {
   }
 
 //Function to invoke method from credit payment with sdk the PagSeguro
-  Future<bool> creditPayment(int value) async {
-    return await channel.invokeMethod(PaymentTypeCall.CREDIT.method, {"value": value});
+  Future<bool> creditPayment(int value,
+      {String userReference = USER_REFERENCE,
+      bool printReceipt = true,
+      bool partialPay = false,
+      bool isCarne = false}) async {
+    return await channel.invokeMethod(PaymentTypeCall.CREDIT.method, {
+      "value": value,
+      "userReference": userReference,
+      "printReceipt": printReceipt,
+      "partialPay": partialPay,
+      "isCarne": isCarne,
+    });
   }
 
 //Function to invoke method from credit installment payment  with sdk the PagSeguro
-  Future<bool> creditPaymentParc(int value, int parc, {PaymentTypeCredit type = PaymentTypeCredit.CLIENT}) async {
-    return await channel.invokeMethod(PaymentTypeCall.CREDIT_PARC.method, {"value": value, "parc": parc, "type": type.value});
+  Future<bool> creditPaymentParc(int value, int parc,
+      {PaymentTypeCredit type = PaymentTypeCredit.CLIENT,
+      String userReference = USER_REFERENCE,
+      bool printReceipt = true,
+      bool partialPay = false,
+      bool isCarne = false}) async {
+    return await channel.invokeMethod(PaymentTypeCall.CREDIT_PARC.method, {
+      "value": value,
+      "parc": parc,
+      "type": type.value,
+      "userReference": userReference,
+      "printReceipt": printReceipt,
+      "partialPay": partialPay,
+      "isCarne": isCarne,
+    });
   }
 
 //Function to invoke method from debit payment with sdk the PagSeguro
-  Future<bool> debitPayment(int value) async {
-    return await channel.invokeMethod(PaymentTypeCall.DEBIT.method, {"value": value});
+  Future<bool> debitPayment(int value,
+      {String userReference = USER_REFERENCE,
+      bool printReceipt = true,
+      bool partialPay = false,
+      bool isCarne = false}) async {
+    return await channel.invokeMethod(PaymentTypeCall.DEBIT.method, {
+      "value": value,
+      "userReference": userReference,
+      "printReceipt": printReceipt,
+      "partialPay": partialPay,
+      "isCarne": isCarne,
+    });
   }
 
   //Function to invoke method from debit payment with sdk the PagSeguro
-  Future<bool> pixPayment(int value) async {
-    return await channel.invokeMethod(PaymentTypeCall.PIX.method, {"value": value});
+  Future<bool> pixPayment(int value,
+      {String userReference = USER_REFERENCE,
+      bool printReceipt = true,
+      bool partialPay = false,
+      bool isCarne = false}) async {
+    return await channel.invokeMethod(PaymentTypeCall.PIX.method, {
+      "value": value,
+      "userReference": userReference,
+      "printReceipt": printReceipt,
+      "partialPay": partialPay,
+      "isCarne": isCarne,
+    });
   }
 
 //Function to invoke method from voucher payment with sdk the PagSeguro
-  Future<bool> voucherPayment(int value) async {
-    return await channel.invokeMethod(PaymentTypeCall.VOUCHER.method, {"value": value});
+  Future<bool> voucherPayment(int value,
+      {String userReference = USER_REFERENCE,
+      bool printReceipt = true,
+      bool partialPay = false,
+      bool isCarne = false}) async {
+    return await channel.invokeMethod(PaymentTypeCall.VOUCHER.method, {
+      "value": value,
+      "userReference": userReference,
+      "printReceipt": printReceipt,
+      "partialPay": partialPay,
+      "isCarne": isCarne,
+    });
+  }
+
+//Function to invoke method from credit installment payment  with sdk the PagSeguro
+  Future<bool> startPayment(PaymentType type, int amount,
+      {PaymentTypeCredit installmentType = PaymentTypeCredit.CLIENT,
+      int installments = 1,
+      String userReference = USER_REFERENCE,
+      bool printReceipt = true,
+      bool partialPay = false,
+      bool isCarne = false}) async {
+    return await channel.invokeMethod(PaymentTypeCall.START_PAYMENT.method, {
+      "type": type.value,
+      "amount": amount,
+      "installmentType": installmentType.value,
+      "installments": installments,
+      "userReference": userReference,
+      "printReceipt": printReceipt,
+      "partialPay": partialPay,
+      "isCarne": isCarne,
+    });
   }
 
   //OPERATIONS
@@ -65,12 +141,14 @@ class Payment {
 
 //Function to invoke method from refund transaction with sdk the PagSeguro
   Future<bool> refund({String? transactionCode, String? transactionId}) async {
-    return await channel.invokeMethod(PaymentTypeCall.REFUND.method, {"transactionCode": transactionCode, "transactionId": transactionId});
+    return await channel.invokeMethod(PaymentTypeCall.REFUND.method,
+        {"transactionCode": transactionCode, "transactionId": transactionId});
   }
 
 //Function to invoke method from return status of the pinpad
   Future<bool> isAuthenticated() async {
-    return await channel.invokeMethod(PaymentTypeCall.PINPAD_AUTHENTICATED.method);
+    return await channel
+        .invokeMethod(PaymentTypeCall.PINPAD_AUTHENTICATED.method);
   }
 
   //Function to printer from file path
