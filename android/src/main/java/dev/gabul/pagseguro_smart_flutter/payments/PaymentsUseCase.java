@@ -1,5 +1,4 @@
 package dev.gabul.pagseguro_smart_flutter.payments;
-
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;
@@ -7,6 +6,7 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
+import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.PlugPagBeepData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import dev.gabul.pagseguro_smart_flutter.core.ActionResult;
 import io.reactivex.Completable;
@@ -25,8 +25,8 @@ public class PaymentsUseCase {
   private final int INSTALLMENT_TYPE_A_VISTA = 1;
   private final int INSTALLMENT_TYPE_PARC_VENDEDOR = 2;
   private final int INSTALLMENT_TYPE_PARC_COMPRADOR = 3;
-
-  public PaymentsUseCase(PlugPag plugPag) {
+  
+	public PaymentsUseCase(PlugPag plugPag) {
     mPlugPag = plugPag;
   }
 
@@ -176,7 +176,6 @@ public class PaymentsUseCase {
       sendResponse(emitter, plugPagTransactionResult, result);
     });
   }
-
   private void sendResponse(
     ObservableEmitter<ActionResult> emitter,
     PlugPagTransactionResult plugPagTransactionResult,
@@ -197,7 +196,6 @@ public class PaymentsUseCase {
     }
     emitter.onComplete();
   }
-
   private void setListener(
     ObservableEmitter<ActionResult> emitter,
     ActionResult result
@@ -208,18 +206,15 @@ public class PaymentsUseCase {
       emitter.onNext(result);
     });
   }
-
   public Completable abort() {
     return Completable.create(emitter -> mPlugPag.abort());
   }
-
   public Observable<Boolean> isAuthenticated() {
     return Observable.create(emitter -> {
       emitter.onNext(mPlugPag.isAuthenticated());
       emitter.onComplete();
     });
   }
-
   public Observable<ActionResult> initializeAndActivatePinpad(
     String activationCode
   ) {
@@ -233,7 +228,6 @@ public class PaymentsUseCase {
         actionResult.setMessage(plugPagEventData.getCustomMessage());
         emitter.onNext(actionResult);
       });
-
       PlugPagInitializationResult result = mPlugPag.initializeAndActivatePinpad(
         new PlugPagActivationData(activationCode)
       );
@@ -245,7 +239,6 @@ public class PaymentsUseCase {
       emitter.onComplete();
     });
   }
-
   public Observable<ActionResult> doRefund(
     String transactionCode,
     String transactionId
@@ -256,18 +249,30 @@ public class PaymentsUseCase {
       PlugPagTransactionResult result = mPlugPag.voidPayment(
         new PlugPagVoidData(transactionCode, transactionId, true)
       );
-
+      sendResponse(emitter, result, actionResult);
+    });
+  }
+  public Observable<ActionResult> getLastTransaction() {
+    return Observable.create(emitter -> {
+      ActionResult actionResult = new ActionResult();
+      PlugPagTransactionResult result = mPlugPag.getLastApprovedTransaction();
       sendResponse(emitter, result, actionResult);
     });
   }
 
-  public Observable<ActionResult> getLastTransaction() {
-    return Observable.create(emitter -> {
-      ActionResult actionResult = new ActionResult();
+  public void rebootDevice() {
+    try {
+      mPlugPag.reboot();
+    }catch (Exception e){
+    }
+  }
 
-      PlugPagTransactionResult result = mPlugPag.getLastApprovedTransaction();
-
-      sendResponse(emitter, result, actionResult);
-    });
+  public void beep() {
+    try {
+      PlugPagBeepData beepData = new PlugPagBeepData(
+              PlugPagBeepData.FREQUENCE_LEVEL_1, 200);
+      mPlugPag.beep(beepData);
+    }catch (Exception e){
+    }
   }
 }

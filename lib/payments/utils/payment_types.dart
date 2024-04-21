@@ -1,6 +1,4 @@
 //Fixed payment type hanldle from return functions
-// ignore_for_file: constant_identifier_names
-
 enum PaymentTypeHandler {
   ON_TRANSACTION_SUCCESS,
   ON_ERROR,
@@ -12,7 +10,19 @@ enum PaymentTypeHandler {
   ACTIVE_DIALOG,
   ON_AUTH_PROGRESS,
   ON_TRANSACTION_INFO,
-  ON_FINISHED_RESPONSE
+  ON_FINISHED_RESPONSE,
+  SHOW_SUCCESS,
+  SHOW_SUCCESS_WRITE,
+  SHOW_SUCCESS_RE_WRITE,
+  SHOW_SUCCESS_FORMAT,
+  SHOW_SUCCESS_DEBIT_NFC,
+  SHOW_SUCCESS_REFUND_NFC,
+  SHOW_ERROR_READ,
+  SHOW_ERROR_WRITE,
+  SHOW_ERROR_RE_WRITE,
+  SHOW_ERROR_FORMAT,
+  SHOW_ERROR_DEBIT_NFC,
+  SHOW_ERROR_REFUND_NFC,
 }
 
 extension StringPaymentHandlerExt on String {
@@ -40,6 +50,30 @@ extension StringPaymentHandlerExt on String {
         return PaymentTypeHandler.ON_AUTH_PROGRESS;
       case "onTransactionInfo":
         return PaymentTypeHandler.ON_TRANSACTION_INFO;
+      case "showSuccess":
+        return PaymentTypeHandler.SHOW_SUCCESS;
+      case "showSuccessWrite":
+        return PaymentTypeHandler.SHOW_SUCCESS_WRITE;
+      case "showSuccessReWrite":
+        return PaymentTypeHandler.SHOW_SUCCESS_RE_WRITE;
+      case "showSuccessFormat":
+        return PaymentTypeHandler.SHOW_SUCCESS_FORMAT;
+      case "showSuccessDebitNfc":
+        return PaymentTypeHandler.SHOW_SUCCESS_DEBIT_NFC;
+      case "showSuccessRefundNfc":
+        return PaymentTypeHandler.SHOW_SUCCESS_REFUND_NFC;
+      case "showErrorRead":
+        return PaymentTypeHandler.SHOW_ERROR_READ;
+      case "showErrorWrite":
+        return PaymentTypeHandler.SHOW_ERROR_WRITE;
+      case "showErrorReWrite":
+        return PaymentTypeHandler.SHOW_ERROR_RE_WRITE;
+      case "showErrorFormat":
+        return PaymentTypeHandler.SHOW_ERROR_FORMAT;
+      case "showErrorDebitNfc":
+        return PaymentTypeHandler.SHOW_ERROR_DEBIT_NFC;
+      case "showErrorRefundNfc":
+        return PaymentTypeHandler.SHOW_ERROR_REFUND_NFC;
       default:
         throw "NOT IMPLEMENTED";
     }
@@ -71,24 +105,35 @@ extension PaymentTypeHandlerExt on PaymentTypeHandler {
         return "onTransactionInfo";
       case PaymentTypeHandler.ON_FINISHED_RESPONSE:
         return "onFinishedResponse";
+      case PaymentTypeHandler.SHOW_SUCCESS:
+        return "showSuccess";
+      case PaymentTypeHandler.SHOW_SUCCESS_WRITE:
+        return "showSuccessWrite";
+      case PaymentTypeHandler.SHOW_SUCCESS_RE_WRITE:
+        return "showSuccessReWrite";
+      case PaymentTypeHandler.SHOW_SUCCESS_FORMAT:
+        return "showSuccessFormat";
+      case PaymentTypeHandler.SHOW_SUCCESS_DEBIT_NFC:
+        return "showSuccessDebitNfc";
+      case PaymentTypeHandler.SHOW_SUCCESS_REFUND_NFC:
+        return "showSuccessRefundNfc";
+      case PaymentTypeHandler.SHOW_ERROR_READ:
+        return "showErrorRead";
+      case PaymentTypeHandler.SHOW_ERROR_WRITE:
+        return "showErrorWrite";
+      case PaymentTypeHandler.SHOW_ERROR_RE_WRITE:
+        return "showErrorReWrite";
+      case PaymentTypeHandler.SHOW_ERROR_FORMAT:
+        return "showErrorFormat";
+      case PaymentTypeHandler.SHOW_ERROR_DEBIT_NFC:
+        return "showErrorDebitNfc";
+      case PaymentTypeHandler.SHOW_ERROR_REFUND_NFC:
     }
   }
 }
 
 //fixed payment type to call from channel
-enum PaymentTypeCall {
-  CREDIT,
-  CREDIT_PARC,
-  DEBIT,
-  PIX,
-  VOUCHER,
-  ABORT,
-  LAST_TRANSACTION,
-  REFUND,
-  ACTIVEPINPAD,
-  PINPAD_AUTHENTICATED,
-  START_PAYMENT
-}
+enum PaymentTypeCall { CREDIT, CREDIT_PARC, DEBIT, PIX, VOUCHER, ABORT, LAST_TRANSACTION, REFUND, ACTIVEPINPAD, PINPAD_AUTHENTICATED, READ_NFC, WRITE_NFC, REWRITE_NFC, REFUND_NFC, DEBIT_NFC, FORMAT_NFC, PRINTER_FILE, START_PAYMENT }
 
 enum PaymentTypeCredit {
   SALESMAN,
@@ -130,6 +175,20 @@ extension PaymentTypeCallExt on PaymentTypeCall {
         return "paymentIsAuthenticated";
       case PaymentTypeCall.PIX:
         return "paymentPix";
+      case PaymentTypeCall.READ_NFC:
+        return "paymentReadNfc";
+      case PaymentTypeCall.WRITE_NFC:
+        return "paymentWriteNfc";
+      case PaymentTypeCall.REWRITE_NFC:
+        return "paymentReWriteNfc";
+      case PaymentTypeCall.DEBIT_NFC:
+        return "paymentDebitNfc";
+      case PaymentTypeCall.FORMAT_NFC:
+        return "paymentFormatNfc";
+      case PaymentTypeCall.REFUND_NFC:
+        return "paymentReFundNfc";
+      case PaymentTypeCall.PRINTER_FILE:
+        return "paymentPrinterFile";
       case PaymentTypeCall.START_PAYMENT:
         return "startPayment";
     }

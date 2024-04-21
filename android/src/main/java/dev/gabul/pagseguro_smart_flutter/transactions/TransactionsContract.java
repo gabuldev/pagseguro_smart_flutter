@@ -1,26 +1,22 @@
 package dev.gabul.pagseguro_smart_flutter.transactions;
 
-//Contract class
 public interface TransactionsContract {
-  void onTransactionSuccess();
 
-  void onTransactionSuccess(String message);
+    void onTransactionSuccess();
 
-  void onError(String message);
+    void onTransactionSuccess(String message);
 
-  void onMessage(String message);
+    void onError(String message);
 
-  void onLoading(boolean show);
+    void onMessage(String message);
 
-  void writeToFile(
-    String transactionCode,
-    String transactionId,
-    String response
-  );
+    void onLoading(boolean show);
 
-  void onAbortedSuccessfully();
+    void writeToFile(String transactionCode, String transactionId);
 
-  void onPrintError(String message);
+    void onAbortedSuccessfully();
 
-  void onLastTransaction(String transactionCode);
+    void onPrintError(String message);
+
+    void onLastTransaction(String transactionCode);
 }

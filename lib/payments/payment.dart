@@ -151,6 +151,16 @@ class Payment {
         .invokeMethod(PaymentTypeCall.PINPAD_AUTHENTICATED.method);
   }
 
+  //Function to printer from file path
+  Future<bool> printerfromFile(String path) async {
+    try {
+      await channel.invokeMethod(PaymentTypeCall.PRINTER_FILE.method);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
 //Function to listen to pagseguro returns in the native environment and notify Flutter
   Future<dynamic> _callHandler(MethodCall call) async {
     switch (call.method.handler) {
@@ -218,6 +228,7 @@ class Payment {
           );
         }
         break;
+
       default:
         throw "METHOD NOT IMPLEMENTED";
     }
