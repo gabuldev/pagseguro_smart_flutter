@@ -1,3 +1,9 @@
+## 1.1.7
+
+- Correção dos métodos de transação
+- Nova versão do SDK da PagSeguro 1.27.2
+- Adicionado funções de NFC para transação
+
 ## 1.1.6
 
 - Nova versão do SDK da PagSeguro 1.27.2
