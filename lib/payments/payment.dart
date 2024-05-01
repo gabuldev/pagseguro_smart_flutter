@@ -124,7 +124,12 @@ class Payment {
   //Function to printer from file path
   Future<bool> printerfromFile(String path) async {
     try {
-      await channel.invokeMethod(PaymentTypeCall.PRINTER_FILE.method);
+      await channel.invokeMethod(
+        PaymentTypeCall.PRINTER_FILE.method,
+        {
+          "path": path,
+        },
+      );
       return true;
     } catch (e) {
       return false;

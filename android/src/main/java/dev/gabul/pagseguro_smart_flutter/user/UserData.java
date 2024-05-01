@@ -42,7 +42,7 @@ public class UserData implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -50,7 +50,7 @@ public class UserData implements Serializable {
     }
 
     public String getCpf() {
-        return cpf;
+        return this.cpf;
     }
 
     public void setCpf(String cpf) {
@@ -66,7 +66,7 @@ public class UserData implements Serializable {
     }
 
     public String getCellPhone() {
-        return cellPhone;
+        return this.cellPhone;
     }
 
     public void setCellPhone(String cellPhone) {
@@ -75,7 +75,7 @@ public class UserData implements Serializable {
 
     public String getActive()
     {
-        return active;
+        return this.active;
     }
 
     public void setActive(String active) {
