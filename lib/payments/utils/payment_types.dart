@@ -133,7 +133,7 @@ extension PaymentTypeHandlerExt on PaymentTypeHandler {
 }
 
 //fixed payment type to call from channel
-enum PaymentTypeCall { CREDIT, CREDIT_PARC, DEBIT, PIX, VOUCHER, ABORT, LAST_TRANSACTION, REFUND, ACTIVEPINPAD, PINPAD_AUTHENTICATED, READ_NFC, WRITE_NFC, REWRITE_NFC, REFUND_NFC, DEBIT_NFC, FORMAT_NFC, PRINTER_FILE, START_PAYMENT }
+enum PaymentTypeCall { CREDIT, CREDIT_PARC, DEBIT, PIX, VOUCHER, ABORT, LAST_TRANSACTION, REFUND, ACTIVEPINPAD, PINPAD_AUTHENTICATED, READ_NFC, WRITE_NFC, REWRITE_NFC, REFUND_NFC, DEBIT_NFC, FORMAT_NFC, PRINTER_FILE, START_PAYMENT, PRINTER }
 
 enum PaymentTypeCredit {
   SALESMAN,
@@ -189,6 +189,8 @@ extension PaymentTypeCallExt on PaymentTypeCall {
         return "paymentReFundNfc";
       case PaymentTypeCall.PRINTER_FILE:
         return "paymentPrinterFile";
+      case PaymentTypeCall.PRINTER_FILE:
+        return "paymentPrinter";
       case PaymentTypeCall.START_PAYMENT:
         return "startPayment";
     }

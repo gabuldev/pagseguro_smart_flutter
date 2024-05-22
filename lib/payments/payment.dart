@@ -136,6 +136,21 @@ class Payment {
     }
   }
 
+  //Function to printer from file path
+  Future<bool> printerFile(String path) async {
+    try {
+      await channel.invokeMethod(
+        PaymentTypeCall.PRINTER.method,
+        {
+          "path": path,
+        },
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
 //Function to listen to pagseguro returns in the native environment and notify Flutter
   Future<dynamic> _callHandler(MethodCall call) async {
     switch (call.method.handler) {

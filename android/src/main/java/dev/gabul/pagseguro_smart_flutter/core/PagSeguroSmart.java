@@ -52,6 +52,7 @@ public class PagSeguroSmart {
 
   //Printer
   private static final String PRINTER_FILE = "paymentPrinterFile";
+  private static final String PRINTER = "paymentPrinter";
 
   public PagSeguroSmart(Context context, MethodChannel channel) {
     PlugPag instancePlugPag = new PlugPag(context);
@@ -66,6 +67,12 @@ public class PagSeguroSmart {
       PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
       String filePath = call.argument("path");
       printerPresenter.printerFromFile(filePath);
+    }
+
+    if(call.method.equals(PRINTER)){
+      PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
+      String filePath = call.argument("path");
+      printerPresenter.printFile(filePath);
     }
 
     if (this.payment == null) {
