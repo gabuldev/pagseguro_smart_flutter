@@ -72,7 +72,8 @@ public class PagSeguroSmart {
     if(call.method.equals(PRINTER)){
       PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
       String filePath = call.argument("path");
-      printerPresenter.printFile(filePath);
+      String fileName = call.argument("fileName");
+      printerPresenter.printFile(fileName, filePath);
     }
 
     if (this.payment == null) {

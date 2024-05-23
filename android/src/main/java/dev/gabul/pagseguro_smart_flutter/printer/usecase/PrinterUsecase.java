@@ -76,18 +76,24 @@ public class PrinterUsecase {
         }
     }
 
-    public Observable<ActionResult> printFile(String fileName) {
+    public Observable<ActionResult> printFile(String fileName, String filePath) {
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/" + fileName;
+        if(filePath != null) {
+            path = filePath;
+        }
+        File file = new File(path);
+
+        String finalPath = path;
+        if(filePath != null) {
+            finalPath = file.getAbsolutePath();
+        }
+        String printerFilePath = finalPath;
         return Observable.create((ObservableEmitter<ActionResult> emitter) -> {
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/" + fileName;
-            File file = new File(path);
-
             ActionResult actionResult = new ActionResult();
-
-
             if (file.exists()) {
                 PlugPagPrintResult result = mPlugpag.printFromFile(
                         new PlugPagPrinterData(
-                                path,
+                                printerFilePath,
                                 4,
                                 0));
 

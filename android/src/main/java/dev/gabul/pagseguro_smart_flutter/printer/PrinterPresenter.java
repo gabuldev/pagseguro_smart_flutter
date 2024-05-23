@@ -30,8 +30,8 @@ public class PrinterPresenter implements Disposable {
         mUseCase.printerFromFile(path);
     }
 
-    public void printFile(String fileName) {
-        mSubscribe = mUseCase.printFile(fileName)
+    public void printFile(String fileName, String filePath) {
+        mSubscribe = mUseCase.printFile(fileName, filePath)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> mFragment.onLoading(true))
