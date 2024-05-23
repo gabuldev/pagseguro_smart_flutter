@@ -30,8 +30,8 @@ public class PrinterPresenter implements Disposable {
         mUseCase.printerFromFile(path);
     }
 
-    public void printFile(String fileName, String filePath) {
-        mSubscribe = mUseCase.printFile(fileName, filePath)
+    public void printFile( String fileName) {
+        mSubscribe = mUseCase.printFile( fileName)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> mFragment.onLoading(true))
@@ -43,6 +43,33 @@ public class PrinterPresenter implements Disposable {
                             } else {
                                 mFragment.onAuthProgress("Erro ao realizar impressão");
                                 mFragment.onError("Erro impressão: " + result.getMessage());
+                            }
+                        },
+                        throwable -> {
+                            if (throwable instanceof FileNotFoundException) {
+                                mFragment.onMessage("O arquivo informado não foi encontrado.");
+                                mFragment.onError("Arquivo não encontrado no diretório base");
+                            } else {
+                                mFragment.onMessage("Erro: " + throwable.getMessage());
+                                mFragment.onAuthProgress("Erro ao realizar impressão");
+                                mFragment.onError("Erro impressão: " + throwable.getMessage());
+                            }
+                        });
+    }
+
+    public void printer( String filePath) {
+        mSubscribe = mUseCase.printer( filePath)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> mFragment.onLoading(true))
+                .doFinally(() -> mFragment.onLoading(false))
+                .subscribe(result -> {
+                            if (result) {
+                                mFragment.onMessage("Impressão finalizada");
+                                mFragment.onAuthProgress("Impressão finalizada");
+                            } else {
+                                mFragment.onAuthProgress("Erro ao realizar impressão");
+                                mFragment.onError("Erro impressão");
                             }
                         },
                         throwable -> {

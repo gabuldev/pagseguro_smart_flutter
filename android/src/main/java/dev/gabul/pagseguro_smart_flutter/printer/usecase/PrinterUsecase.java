@@ -76,24 +76,18 @@ public class PrinterUsecase {
         }
     }
 
-    public Observable<ActionResult> printFile(String fileName, String filePath) {
+    public Observable<ActionResult> printFile(String fileName) {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/" + fileName;
-        if(filePath != null) {
-            path = filePath;
-        }
+
         File file = new File(path);
 
-        String finalPath = path;
-        if(filePath != null) {
-            finalPath = file.getAbsolutePath();
-        }
-        String printerFilePath = finalPath;
+
         return Observable.create((ObservableEmitter<ActionResult> emitter) -> {
             ActionResult actionResult = new ActionResult();
             if (file.exists()) {
                 PlugPagPrintResult result = mPlugpag.printFromFile(
                         new PlugPagPrinterData(
-                                printerFilePath,
+                                path,
                                 4,
                                 0));
 
@@ -103,6 +97,31 @@ public class PrinterUsecase {
                 setPrintListener(emitter, actionResult);
 
                 emitter.onNext(actionResult);
+            } else {
+                emitter.onError(new FileNotFoundException());
+            }
+            emitter.onComplete();
+        });
+    }
+
+    public Observable<Boolean> printer(String filePath) {
+        File file = new File(filePath);
+        if(!file.exists()) {
+            mFragment.onMessage("O arquivo informado não foi encontrado.");
+            mFragment.onError("Arquivo não encontrado no diretório: " + file.getAbsolutePath());
+        }
+        return Observable.create((ObservableEmitter<Boolean> emitter) -> {
+            if (file.exists()) {
+                PlugPagPrintResult result = mPlugpag.printFromFile(
+                        new PlugPagPrinterData(
+                                file.getAbsolutePath(),
+                                4,
+                                0));
+
+
+                setPrintListener2(emitter);
+
+                emitter.onNext(true);
             } else {
                 emitter.onError(new FileNotFoundException());
             }
@@ -127,6 +146,20 @@ public class PrinterUsecase {
                 );
                 result.setErrorCode(printResult.getErrorCode());
                 emitter.onNext(result);
+            }
+        });
+    }
+
+    private void setPrintListener2(ObservableEmitter<Boolean> emitter) {
+        mPlugpag.setPrinterListener(new PlugPagPrinterListener() {
+            @Override
+            public void onError(PlugPagPrintResult printResult) {
+                emitter.onError(new PlugPagException(String.format("Error %s %s", printResult.getErrorCode(), printResult.getMessage())));
+            }
+
+            @Override
+            public void onSuccess(PlugPagPrintResult printResult) {
+                emitter.onNext(true);
             }
         });
     }
