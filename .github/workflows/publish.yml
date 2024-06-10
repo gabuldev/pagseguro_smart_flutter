@@ -13,25 +13,25 @@ on:
     # - 'my_package_name-v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write # Required for authentication using OIDC
-      contents: read # Grant read access to the repository contents
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup Flutter
+      - uses: actions/checkout@v2
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "latest"
-
       - name: Install dependencies
         run: flutter pub get
-
-      - name: Publish to pub.dev
-        env:
-          PUB_TOKEN: ${{ secrets.PUB_TOKEN }}
-        run: flutter pub publish --force
+      # - name: Analyze
+      #   run: flutter analyze
+      # - name: Run tests
+      #   run: flutter test
+      # - name: Format code
+      #   run: dart format --fix .
+      # - name: Check Publish Warnings
+      #   run: dart pub publish --dry-run
+      - name: Publish
+        uses: k-paxian/dart-package-publisher@v1.5.1
+        with:
+          credentialJson: ${{ secrets.CREDENTIAL_JSON }}
+          flutter: true
+          skipTests: true
