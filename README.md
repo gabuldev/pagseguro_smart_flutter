@@ -236,6 +236,11 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 
 \*\*Obs: A via do estabelecimento do estabelecimento pode ser impressa ou não baseada no parâmetro printReceipt. Após a finalização do pagamento, um popUp é exibido perguntando se deseja a via do consumidor.
 
+##### \*Método de impressão
+
+`PagseguroSmart.instance().payment.printerfromFile(path)` => Fornecer o caminho absoluto ao arquivo que deve ser impresso.
+Verificar se seu projeto tem a permissão de acesso aos arquivos dentro do dispositivo.
+
 ---
 
 ## NfcSmart

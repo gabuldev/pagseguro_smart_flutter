@@ -124,7 +124,42 @@ class Payment {
   //Function to printer from file path
   Future<bool> printerfromFile(String path) async {
     try {
-      await channel.invokeMethod(PaymentTypeCall.PRINTER_FILE.method);
+      await channel.invokeMethod(
+        PaymentTypeCall.PRINTER_FILE.method,
+        {
+          "path": path,
+        },
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //Function to printerFile from fileName
+  Future<bool> printerFile(String fileName) async {
+    try {
+      await channel.invokeMethod(
+        PaymentTypeCall.PRINTER.method,
+        {
+          "path": fileName,
+        },
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //Function to printer from file path
+  Future<bool> printer(String filePath) async {
+    try {
+      await channel.invokeMethod(
+        PaymentTypeCall.PRINTER_BASIC.method,
+        {
+          "path": filePath,
+        },
+      );
       return true;
     } catch (e) {
       return false;

@@ -1,3 +1,7 @@
+## 1.1.7+1
+
+- Correção do método printerFromFile
+
 ## 1.1.7
 
 - Correção dos métodos de transação
