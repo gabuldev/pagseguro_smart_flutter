@@ -1,3 +1,7 @@
+## 1.1.9
+
+- Adiciona CI/CD para deploy no pub.dev
+
 ## 1.1.8
 
 - Correção do método printerFromFile
