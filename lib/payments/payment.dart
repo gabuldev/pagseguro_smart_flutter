@@ -122,7 +122,7 @@ class Payment {
   }
 
   //Function to printer from file path
-  Future<bool> printerfromFile(String path) async {
+  Future<bool> printerfromFileDownload(String path) async {
     try {
       await channel.invokeMethod(
         PaymentTypeCall.PRINTER_FILE.method,
@@ -137,7 +137,7 @@ class Payment {
   }
 
   //Function to printerFile from fileName
-  Future<bool> printerFile(String fileName) async {
+  Future<bool> printerFromFileName(String fileName) async {
     try {
       await channel.invokeMethod(
         PaymentTypeCall.PRINTER.method,
@@ -152,7 +152,7 @@ class Payment {
   }
 
   //Function to printer from file path
-  Future<bool> printer(String filePath) async {
+  Future<bool> printerFromFilePath(String filePath) async {
     try {
       await channel.invokeMethod(
         PaymentTypeCall.PRINTER_BASIC.method,

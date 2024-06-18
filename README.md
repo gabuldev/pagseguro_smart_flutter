@@ -284,6 +284,17 @@ Para a classe responsável com a integração por meio do NFC, temos os seguinte
 //Responsável por chamar função de débito utilizando NFC
 `Future<bool> debitNfc(idEvento, valor);`
 
+## Printer
+
+//Responsável por chamar o método de impressão, passando como parâmetro o `path` completo do arquivo a ser impresso.
+`PagSeguroSmart.instance.printerFromFilePath(path)`
+
+//Responsável por chamar o método de impressão, passando como parâmetro o `nome` completo do arquivo mais extenção do arquivo, e _devem estar localizados na pasta Download!_
+`PagSeguroSmart.instance.printerFromFileName(fileName)`
+
+//Responsável por chamar o método de impressão, passando como parâmetro o `path` completo do arquivo a ser impresso, sendo que este _deve estar localizado na pasta Download!_
+`PagSeguroSmart.instance.printerfromFileDownload(path)`
+
 ## :memo: Autores
 
 Este projeto foi desenvolvido por:

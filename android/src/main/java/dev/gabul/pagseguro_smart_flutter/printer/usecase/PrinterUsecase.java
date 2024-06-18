@@ -76,7 +76,7 @@ public class PrinterUsecase {
         }
     }
 
-    public Observable<ActionResult> printFile(String fileName) {
+    public Observable<ActionResult> printerByFileName(String fileName) {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/" + fileName;
 
         File file = new File(path);
@@ -104,7 +104,7 @@ public class PrinterUsecase {
         });
     }
 
-    public Observable<Boolean> printer(String filePath) {
+    public Observable<Boolean> printerByFilePath(String filePath) {
         File file = new File(filePath);
         if(!file.exists()) {
             mFragment.onMessage("O arquivo informado não foi encontrado.");

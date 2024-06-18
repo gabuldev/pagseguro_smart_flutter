@@ -3,13 +3,24 @@ package dev.gabul.pagseguro_smart_flutter.payments;
 import io.flutter.plugin.common.MethodChannel;
 import java.util.HashMap;
 import java.util.Map;
+import android.os.Handler;
+import android.os.Looper;
 
 public class PaymentsFragment implements PaymentsContract {
 
+  private final Handler mainHandler = new Handler(Looper.getMainLooper());
   final MethodChannel channel;
 
   public PaymentsFragment(MethodChannel channel) {
     this.channel = channel;
+  }
+
+  private void runOnUiThread(Runnable runnable) {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+      runnable.run();
+    } else {
+      mainHandler.post(runnable);
+    }
   }
 
   private static final String ON_TRANSACTION_SUCCESS = "onTransactionSuccess";
@@ -26,27 +37,52 @@ public class PaymentsFragment implements PaymentsContract {
 
   @Override
   public void onTransactionSuccess() {
-    this.channel.invokeMethod(ON_TRANSACTION_SUCCESS, true);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ON_TRANSACTION_SUCCESS, true);
+      }
+    });
   }
 
   @Override
   public void onError(String message) {
-    this.channel.invokeMethod(ON_ERROR, message);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ON_ERROR, message);
+      }
+    });
   }
 
   @Override
   public void onMessage(String message) {
-    this.channel.invokeMethod(ON_MESSAGE, message);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ON_MESSAGE, message);
+      }
+    });
   }
 
   @Override
   public void onFinishedResponse(String message) {
-    this.channel.invokeMethod(ON_FINISHED_RESPONSE, message);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ON_FINISHED_RESPONSE, message);
+      }
+    });
   }
 
   @Override
   public void onLoading(boolean show) {
-    this.channel.invokeMethod(ON_LOADING, show);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ON_LOADING, show);
+      }
+    });
   }
 
   @Override
@@ -59,27 +95,52 @@ public class PaymentsFragment implements PaymentsContract {
     map.put("transactionCode", transactionCode);
     map.put("transactionId", transactionId);
     map.put("response", response);
-    this.channel.invokeMethod(WRITE_TO_FILE, map);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(WRITE_TO_FILE, map);
+      }
+    });
   }
 
   @Override
   public void onAbortedSuccessfully() {
-    this.channel.invokeMethod(ON_ABORTED_SUCCESSFULLY, true);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ON_ABORTED_SUCCESSFULLY, true);
+      }
+    });
   }
 
   @Override
   public void disposeDialog() {
-    this.channel.invokeMethod(DISPOSE_DIALOG, true);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(DISPOSE_DIALOG, true);
+      }
+    });
   }
 
   @Override
   public void onActivationDialog() {
-    this.channel.invokeMethod(ACTIVE_DIALOG, true);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ACTIVE_DIALOG, true);
+      }
+    });
   }
 
   @Override
   public void onAuthProgress(String message) {
-    this.channel.invokeMethod(ON_AUTH_PROGRESS, message);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ON_AUTH_PROGRESS, message);
+      }
+    });
   }
 
   @Override
@@ -92,6 +153,11 @@ public class PaymentsFragment implements PaymentsContract {
     map.put("transactionCode", transactionCode);
     map.put("transactionId", transactionId);
     map.put("response", response);
-    this.channel.invokeMethod(ON_TRANSACTION_INFO, map);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        this.channel.invokeMethod(ON_TRANSACTION_INFO, map);
+      }
+    });
   }
 }
