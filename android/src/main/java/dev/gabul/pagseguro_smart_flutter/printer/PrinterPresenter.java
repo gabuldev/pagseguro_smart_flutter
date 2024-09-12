@@ -84,6 +84,33 @@ public class PrinterPresenter implements Disposable {
                         });
     }
 
+    public void printerByFilePath( String filePath) {
+        mSubscribe = mUseCase.printerByFilePath( filePath)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> mFragment.onLoading(true))
+                .doFinally(() -> mFragment.onLoading(false))
+                .subscribe(result -> {
+                            if (result) {
+                                mFragment.onMessage("Impressão finalizada");
+                                mFragment.onAuthProgress("Impressão finalizada");
+                            } else {
+                                mFragment.onAuthProgress("Erro ao realizar impressão");
+                                mFragment.onError("Erro impressão");
+                            }
+                        },
+                        throwable -> {
+                            if (throwable instanceof FileNotFoundException) {
+                                mFragment.onMessage("O arquivo informado não foi encontrado.");
+                                mFragment.onError("Arquivo não encontrado no diretório base");
+                            } else {
+                                mFragment.onMessage("Erro: " + throwable.getMessage());
+                                mFragment.onAuthProgress("Erro ao realizar impressão");
+                                mFragment.onError("Erro impressão: " + throwable.getMessage());
+                            }
+                        });
+    }
+
     @Override
     public void dispose() {
         if (mSubscribe != null) {

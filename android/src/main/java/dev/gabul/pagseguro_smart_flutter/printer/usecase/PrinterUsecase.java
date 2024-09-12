@@ -129,6 +129,31 @@ public class PrinterUsecase {
         });
     }
 
+    public Observable<Boolean> printerByFilePath(String filePath) {
+        File file = new File(filePath);
+        if(!file.exists()) {
+            mFragment.onMessage("O arquivo informado não foi encontrado.");
+            mFragment.onError("Arquivo não encontrado no diretório: " + file.getAbsolutePath());
+        }
+        return Observable.create((ObservableEmitter<Boolean> emitter) -> {
+            if (file.exists()) {
+                PlugPagPrintResult result = mPlugpag.printFromFile(
+                        new PlugPagPrinterData(
+                                file.getAbsolutePath(),
+                                4,
+                                0));
+
+
+                setPrintListener2(emitter);
+
+                emitter.onNext(true);
+            } else {
+                emitter.onError(new FileNotFoundException());
+            }
+            emitter.onComplete();
+        });
+    }
+
     private void setPrintListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
         mPlugpag.setPrinterListener(new PlugPagPrinterListener() {
             @Override
