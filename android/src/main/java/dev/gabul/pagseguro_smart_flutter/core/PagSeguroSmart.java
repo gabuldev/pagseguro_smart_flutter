@@ -1,5 +1,7 @@
 package dev.gabul.pagseguro_smart_flutter.core;
 import android.content.Context;
+import android.util.Log;
+
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAppIdentification;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;

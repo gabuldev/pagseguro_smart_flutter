@@ -1,3 +1,8 @@
+## 1.1.10
+
+- Adiciona função printerByFilePath
+- Corrige possíveis erros ao devolver o retorno do método de impressão
+
 ## 1.1.9
 
 - Adiciona CI/CD para deploy no pub.dev
