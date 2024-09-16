@@ -2,6 +2,7 @@ package dev.gabul.pagseguro_smart_flutter.printer.usecase;
 
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,7 +31,7 @@ public class PrinterUsecase {
     @Inject
     public PrinterUsecase(PlugPag plugPag, MethodChannel channel) {
         this.mPlugpag = plugPag;
-        mFragment = new PaymentsFragment(channel);
+        this.mFragment = new PaymentsFragment(channel);
     }
 
     public void printerFromFile(String path) {
@@ -105,27 +106,76 @@ public class PrinterUsecase {
     }
 
     public Observable<Boolean> printer(String filePath) {
-        File file = new File(filePath);
-        if(!file.exists()) {
-            mFragment.onMessage("O arquivo informado não foi encontrado.");
-            mFragment.onError("Arquivo não encontrado no diretório: " + file.getAbsolutePath());
-        }
+
         return Observable.create((ObservableEmitter<Boolean> emitter) -> {
-            if (file.exists()) {
-                PlugPagPrintResult result = mPlugpag.printFromFile(
-                        new PlugPagPrinterData(
-                                file.getAbsolutePath(),
-                                4,
-                                0));
+            try {
+                File file = new File(filePath);
+                if(!file.exists()) {
+                    mFragment.onMessage("O arquivo informado não foi encontrado.");
+                    mFragment.onError("Arquivo não encontrado no diretório: " + file.getAbsolutePath());
+                }
+
+                if (file.exists()) {
+                    PlugPagPrintResult result = mPlugpag.printFromFile(
+                            new PlugPagPrinterData(
+                                    file.getAbsolutePath(),
+                                    4,
+                                    0));
 
 
-                setPrintListener2(emitter);
 
-                emitter.onNext(true);
-            } else {
-                emitter.onError(new FileNotFoundException());
+                    emitter.onNext(true);
+                } else {
+                    emitter.onError(new FileNotFoundException());
+                }
+                emitter.onComplete();
+            } catch (Exception e) {
+                mFragment.onMessage("Erro: " + e.getMessage());
+                mFragment.onAuthProgress("Erro ao realizar impressão");
+                mFragment.onError("Erro impressão: " + e.getMessage());
+                emitter.onError(e);
             }
-            emitter.onComplete();
+        });
+    }
+
+    public Observable<ActionResult> printerByFilePath(String filePath) {
+
+        return Observable.create((ObservableEmitter<ActionResult> emitter) -> {
+            ActionResult actionResult = new ActionResult();
+           try {
+               File file = new File(filePath);
+               if(!file.exists()) {
+                   mFragment.onMessage("O arquivo informado não foi encontrado.");
+                   mFragment.onError("Arquivo não encontrado no diretório: " + file.getAbsolutePath());
+               }
+               if (file.exists()) {
+                   PlugPagPrintResult result = mPlugpag.printFromFile(
+                           new PlugPagPrinterData(
+                                   file.getPath(),
+                                   4,
+                                   0));
+
+
+                   setPrintListener2(emitter);
+                   if(result.getMessage().equals("Success")) {
+                       actionResult.setResult(0);
+                   }else {
+                       actionResult.setResult(result.getResult());
+                   }
+
+                   actionResult.setMessage(result.getMessage());
+
+                   emitter.onNext(actionResult);
+               } else {
+                   emitter.onError(new FileNotFoundException());
+               }
+               emitter.onComplete();
+           } catch (Exception e) {
+               mFragment.onMessage("Erro: " + e.getMessage());
+               mFragment.onAuthProgress("Erro ao realizar impressão");
+               mFragment.onError("Erro impressão: " + e.getMessage());
+               emitter.onError(e);
+           }
         });
     }
 
@@ -150,16 +200,21 @@ public class PrinterUsecase {
         });
     }
 
-    private void setPrintListener2(ObservableEmitter<Boolean> emitter) {
+    private void setPrintListener2(ObservableEmitter<ActionResult> emitter) {
+        ActionResult actionResult = new ActionResult();
         mPlugpag.setPrinterListener(new PlugPagPrinterListener() {
             @Override
             public void onError(PlugPagPrintResult printResult) {
-                emitter.onError(new PlugPagException(String.format("Error %s %s", printResult.getErrorCode(), printResult.getMessage())));
+                actionResult.setResult(999999);
+                actionResult.setMessage("Error code: " + printResult.getErrorCode() + " Erro: " + printResult.getMessage());
+                emitter.onNext(actionResult);
             }
 
             @Override
             public void onSuccess(PlugPagPrintResult printResult) {
-                emitter.onNext(true);
+                actionResult.setResult(0);
+                actionResult.setMessage(printResult.getMessage());
+                emitter.onNext(actionResult);
             }
         });
     }

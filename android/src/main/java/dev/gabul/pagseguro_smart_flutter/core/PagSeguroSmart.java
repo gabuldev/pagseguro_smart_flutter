@@ -1,5 +1,7 @@
 package dev.gabul.pagseguro_smart_flutter.core;
 import android.content.Context;
+import android.util.Log;
+
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAppIdentification;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;
@@ -55,6 +57,7 @@ public class PagSeguroSmart {
   private static final String PRINTER = "paymentPrinter";
 
   private static final String PRINTER_BASIC = "paymentPrinterBasic";
+  private static final String PRINTER_FILE_PATH = "paymentPrinterFilePath";
 
   public PagSeguroSmart(Context context, MethodChannel channel) {
     PlugPag instancePlugPag = new PlugPag(context);
@@ -65,22 +68,28 @@ public class PagSeguroSmart {
     this.mChannel = channel;
   }
   public void initPayment(MethodCall call, MethodChannel.Result result) {
-    if(call.method.equals(PRINTER_FILE)){
+    if(call.method.equals(PRINTER_FILE)) {
       PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
       String filePath = call.argument("path");
       printerPresenter.printerFromFile(filePath);
     }
 
-    if(call.method.equals(PRINTER)){
+    if(call.method.equals(PRINTER)) {
       PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
       String filePath = call.argument("path");
       printerPresenter.printFile(filePath);
     }
 
-    if(call.method.equals(PRINTER_BASIC)){
+    if(call.method.equals(PRINTER_BASIC)) {
       PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
       String filePath = call.argument("path");
       printerPresenter.printer(filePath);
+    }
+
+    if(call.method.equals(PRINTER_FILE_PATH)) {
+      PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
+      String filePath = call.argument("path");
+      printerPresenter.printerByFilePath(filePath);
     }
 
     if (this.payment == null) {
