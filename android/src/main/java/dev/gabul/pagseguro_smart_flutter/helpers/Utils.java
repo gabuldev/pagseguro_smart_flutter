@@ -1,11 +1,8 @@
 package dev.gabul.pagseguro_smart_flutter.helpers;
 
-import com.google.common.primitives.Ints;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-
 
 public class Utils {
 
@@ -42,7 +39,7 @@ public class Utils {
         if (mShowDataAsHexString) {
             StringBuilder sb = new StringBuilder();
             for (byte b : data) {
-                sb.append(Integer.toHexString((int) b).toUpperCase());
+                sb.append(Integer.toHexString((int) b & 0xFF).toUpperCase());
             }
             ret = sb.toString();
         } else {
@@ -63,7 +60,10 @@ public class Utils {
     }
 
     public static int convertBytes2Int(byte[] array) {
-        return Ints.fromByteArray(array);
+        if (array.length < 4) {
+            throw new IllegalArgumentException("O array deve ter pelo menos 4 bytes de comprimento");
+        }
+        return ByteBuffer.wrap(array).getInt();
     }
 
     public static float convertBytes2Float(byte[] array) {
@@ -73,25 +73,21 @@ public class Utils {
     }
 
     public static ArrayList<byte[]> sliceBytes(byte[] array, int size) {
-
         ArrayList<byte[]> arrays = new ArrayList<>();
         for (int i = 0; i < array.length; i += size) {
-            byte[] slice = new byte[4];
-            System.arraycopy(array, i, slice, 0, size);
+            byte[] slice = new byte[size];
+            System.arraycopy(array, i, slice, 0, Math.min(size, array.length - i));
             arrays.add(slice);
         }
         return arrays;
     }
 
     public static String removeAsterisco(String valor) {
-
         if(valor != null) {
             return valor.replace("*", "");
         }
-
         return "";
     }
-
 
     public static String adicionaAsterisco(String valor) {
         if (valor.length() >= 16) {
@@ -102,8 +98,6 @@ public class Utils {
             sb.append('*');
         }
         sb.append(valor);
-
         return sb.toString();
     }
-
 }
