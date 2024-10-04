@@ -180,6 +180,26 @@ class Payment {
     }
   }
 
+  //Reboot device
+  Future<bool> rebootDevice() async {
+    try {
+      channel.invokeMethod(PaymentTypeCall.REBOOT.method);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //Emitter beep device
+  Future<bool> beep() async {
+    try {
+      channel.invokeMethod(PaymentTypeCall.BEEP.method);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
 //Function to listen to pagseguro returns in the native environment and notify Flutter
   Future<dynamic> _callHandler(MethodCall call) async {
     switch (call.method.handler) {

@@ -1,3 +1,9 @@
+## 1.1.11
+
+- Adiciona função reboot do dispositivo
+- Adiciona função beep do dispositivo
+- Atualiza SDK plugpag service para versão 1.29.2
+
 ## 1.1.10
 
 - Adiciona função printerByFilePath
