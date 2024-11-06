@@ -161,6 +161,47 @@ class _PaymentPageState extends State<PaymentPage> {
           const SizedBox(
             height: 20,
           ),
+          ElevatedButton(
+            onPressed: () {
+              final list = List.generate(
+                45,
+                (index) {
+                  final bool textDarkMode = index % 2 == 0;
+
+                  final Color textBackgroundColor =
+                      textDarkMode ? Colors.black : Colors.white;
+                  final Color textColor =
+                      textDarkMode ? Colors.white : Colors.black;
+
+                  return Row(children: [
+                    Container(
+                        color: textBackgroundColor,
+                        child: Text(
+                          'Item ${index + 1}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: textColor,
+                          ),
+                        )),
+                  ]);
+                },
+              );
+
+              //Chamar o método para imprimir um widget
+              PrintRenderWidget.print(
+                context,
+                pagseguroSmartInstance: PagseguroSmart.instance(),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    return list[index];
+                  },
+                ),
+              );
+            },
+            child: const Text("Imprimir componente"),
+          ),
           if (controller.enableRefund)
             ElevatedButton(
               onPressed: () {
