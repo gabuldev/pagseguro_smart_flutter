@@ -4,15 +4,54 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7427458-93b8-4eeb-a2d4-964155e822ec" name="Changes" comment="" />
+    <list default="true" id="f7427458-93b8-4eeb-a2d4-964155e822ec" name="Changes" comment="Preparation and Addition &#10;&quot;getDefaultMessage&quot; has been implemented, creation of listeners still needs to be added.">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/dev/gabul/pagseguro_smart_flutter/core/PagSeguroSmart.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/dev/gabul/pagseguro_smart_flutter/core/PagSeguroSmart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/dev/gabul/pagseguro_smart_flutter/payments/PaymentsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/dev/gabul/pagseguro_smart_flutter/payments/PaymentsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/dev/gabul/pagseguro_smart_flutter/payments/PaymentsUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/dev/gabul/pagseguro_smart_flutter/payments/PaymentsUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/payments/payment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/payments/payment.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/payments/utils/payment_types.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/payments/utils/payment_types.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Vertice42"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/gabuldev/pagseguro_smart_flutter.git",
+    "accountId": "14a43699-db61-476c-ac90-ccc817a6a97a"
+  }
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 0
+}]]></component>
   <component name="ProjectId" id="2RLQzausE3qUmVvjprnz6jjk5bG" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" />
@@ -28,11 +67,17 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Flutter.example/lib/main.dart.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "C:/ProjetosFlutter/PagSeguro/pagseguro_smart_flutter",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "git-widget-placeholder": "tenascode",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/GItHubProjects/pagseguro_smart_flutter/example/android",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Dart",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
@@ -52,5 +97,20 @@
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
     </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Preparation and Addition &#10;&quot;getDefaultMessage&quot; has been implemented, creation of listeners still needs to be added." />
+    <option name="LAST_COMMIT_MESSAGE" value="Preparation and Addition &#10;&quot;getDefaultMessage&quot; has been implemented, creation of listeners still needs to be added." />
   </component>
 </project>

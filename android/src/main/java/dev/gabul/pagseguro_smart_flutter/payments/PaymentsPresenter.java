@@ -231,4 +231,8 @@ public class PaymentsPresenter {
       mSubscribe.dispose();
     }
   }
+
+    public String getDefaultMessage(int eventCode) {
+        return PlugPagEventData.Companion.getDefaultMessage(eventCode);
+    }
 }
