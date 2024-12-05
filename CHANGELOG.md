@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Adiciona função para renderizar e imprimir um componente
+
 ## 1.1.11
 
 - Adiciona função reboot do dispositivo
