@@ -236,11 +236,23 @@ Logo após ativação, o SDK da PagSeguro fornece algumas opções de transaçã
 
 \*\*Obs: A via do estabelecimento do estabelecimento pode ser impressa ou não baseada no parâmetro printReceipt. Após a finalização do pagamento, um popUp é exibido perguntando se deseja a via do consumidor.
 
-##### \*Método de impressão
+### Método de impressão
+Deve-se verificar se seu projeto tem a permissão de acesso aos arquivos dentro do dispositivo.
 
+#### Imprimir um arquivo
 `PagseguroSmart.instance().payment.printerfromFile(path)` => Fornecer o caminho absoluto ao arquivo que deve ser impresso.
-Verificar se seu projeto tem a permissão de acesso aos arquivos dentro do dispositivo.
 
+
+#### Imprimir um widget
+Basta chamar a função abaixo, passando o widget a ser impresso pela POS.
+
+```
+PrintRenderWidget.print(
+  context,
+  pagseguroSmartInstance: pagseguroSmart,
+  child: MyCustomWidget(),
+);
+```
 ---
 
 ## NfcSmart
@@ -295,9 +307,13 @@ Este projeto foi desenvolvido por:
 <a href="https://github.com/jhonathanqz">
   <img src="https://avatars.githubusercontent.com/u/74057391?s=96&v=4" height=90 />
 </a>
+<a href="https://github.com/fogaiht">
+  <img src="https://avatars.githubusercontent.com/u/16519851?v=4" height=90 />
+</a>
 <br>
-<a href="https://github.com/gabuldev" target="_blank">Gabul Dev</a> e
-<a href="https://github.com/jhonathanqz" target="_blank">Jhonathan Queiroz</a>
+<a href="https://github.com/gabuldev" target="_blank">Gabul Dev</a>, 
+<a href="https://github.com/jhonathanqz" target="_blank">Jhonathan Queiroz</a> e
+<a href="https://github.com/fogaiht" target="_blank">Thiago Fernandes</a>
 </div>
 
 &#xa0;
