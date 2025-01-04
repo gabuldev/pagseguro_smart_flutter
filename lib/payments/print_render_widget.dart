@@ -5,9 +5,8 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'package:path_provider/path_provider.dart';
-
 import 'package:pagseguro_smart_flutter/pagseguro_smart_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// Widget auxiliar para renderização e impressão de um widget específico.
 ///
@@ -37,6 +36,7 @@ class PrintRenderWidget {
   /// - `context`: Contexto do `BuildContext`.
   /// - `pagseguroSmartInstance`: Instância de `PagseguroSmart` para impressão.
   /// - `child`: Widget que será renderizado e impresso.
+  /// - `foregroundScreen`: Widget que será renderizado em primeiro plano, à frente do widget que será impresso.
   ///
   /// ### Exemplo de uso:
   /// ```dart
@@ -44,21 +44,25 @@ class PrintRenderWidget {
   ///   context,
   ///   pagseguroSmartInstance: pagseguroSmart,
   ///   child: MyWidget(),
+  ///   foregroundScreen: ForegroundWidget(),
   /// );
   /// ```
-  static void print(
+  static Future<bool> print(
     BuildContext context, {
     required PagseguroSmart pagseguroSmartInstance,
     required Widget child,
-  }) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
+    Widget? foregroundScreen,
+  }) async {
+    final response = await Navigator.of(context).push(
+      MaterialPageRoute<bool>(
         builder: (context) => _PrintRenderPage(
           pagseguroSmart: pagseguroSmartInstance,
+          foregroundScreen: foregroundScreen,
           child: child,
         ),
       ),
     );
+    return response == true;
   }
 }
 
@@ -70,12 +74,13 @@ class PrintRenderWidget {
 class _PrintRenderPage extends StatefulWidget {
   final PagseguroSmart pagseguroSmart;
   final Widget child;
+  final Widget? foregroundScreen;
 
   const _PrintRenderPage({
-    Key? key,
-    required this.child,
     required this.pagseguroSmart,
-  }) : super(key: key);
+    required this.child,
+    this.foregroundScreen,
+  });
 
   @override
   State<_PrintRenderPage> createState() => _PrinterRenderPageState();
@@ -101,14 +106,19 @@ class _PrinterRenderPageState extends State<_PrintRenderPage> {
     const backgroundColor = Colors.white;
 
     return Material(
-      child: SingleChildScrollView(
-        child: RepaintBoundary(
-          key: _globalKey,
-          child: Container(
-            color: backgroundColor,
-            child: widget.child,
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: RepaintBoundary(
+              key: _globalKey,
+              child: Container(
+                color: backgroundColor,
+                child: widget.child,
+              ),
+            ),
           ),
-        ),
+          widget.foregroundScreen ?? const SizedBox()
+        ],
       ),
     );
   }
@@ -287,7 +297,7 @@ class _PrinterRenderPageState extends State<_PrintRenderPage> {
       await Future.delayed(const Duration(seconds: 2));
 
       if (!mounted) return;
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(true);
     } on Exception catch (e) {
       // Captura e imprime a mensagem de erro no console.
       debugPrint('Erro ao gerar a imagem.\n\tErro: $e');

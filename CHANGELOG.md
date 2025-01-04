@@ -1,3 +1,7 @@
+## 1.2.1
+
+- Adiciona opção de colocar um widget à frente do componente que será impresso
+- 
 ## 1.2.0
 
 - Adiciona função para renderizar e imprimir um componente
