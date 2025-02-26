@@ -44,7 +44,7 @@ android {
 }
 
 dependencies{
-    implementation 'br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.29.2'
+    implementation 'br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.29.5'
     implementation 'com.google.dagger:dagger:2.38.1'
     annotationProcessor "com.google.dagger:dagger-compiler:2.38.1"
     implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
