@@ -1,7 +1,7 @@
   <h1 align="center">Pagseguro Smart Flutter</h1>
 
 <div align="center" id="top"> 
-  <img src="https://seeklogo.com/images/P/pagbank-logo-11812EDA89-seeklogo.com.png" alt="LojaExpressVarejista" height=40 />
+  <img src="assets/logo_pagseguro.png" alt="PagSeguro" height=80 />
 </div>
 
 <p align="center">
@@ -177,7 +177,7 @@ class PaymentController extends PaymentHandler {
 
 ```
 
-#### Métodos da ´PaymentHandler´
+#### Métodos da `PaymentHandler`
 
 ##### onAbortedSuccessfully
 
