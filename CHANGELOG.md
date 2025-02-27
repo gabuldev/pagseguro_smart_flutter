@@ -1,3 +1,7 @@
+## 1.3.0
+
+- Atualiza versão do `wrapper` da pagseguro para `1.29.5`
+
 ## 1.2.0
 
 - Adiciona função para renderizar e imprimir um componente

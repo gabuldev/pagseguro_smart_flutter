@@ -6,7 +6,7 @@ import 'package:pagseguro_smart_flutter/payments/utils/payment_types.dart';
 
 //Fixed channel name
 const CHANNEL_NAME = "pagseguro_smart_flutter";
-const USER_REFERENCE = "SMARTFLUTTER"; //Only letters and numbers
+const USER_REFERENCE = "SMARTPOS"; //Only letters and numbers
 
 class Payment {
   final MethodChannel channel;
@@ -33,7 +33,7 @@ class Payment {
   Future<bool> creditPayment(int value, {String userReference = USER_REFERENCE, bool printReceipt = true, bool partialPay = false, bool isCarne = false}) async {
     return await channel.invokeMethod(PaymentTypeCall.CREDIT.method, {
       "value": value,
-      "userReference": userReference,
+      "userReference": _sanitizeUserReference(userReference),
       "printReceipt": printReceipt,
       "partialPay": partialPay,
       "isCarne": isCarne,
@@ -46,7 +46,7 @@ class Payment {
       "value": value,
       "parc": parc,
       "type": type.value,
-      "userReference": userReference,
+      "userReference": _sanitizeUserReference(userReference),
       "printReceipt": printReceipt,
       "partialPay": partialPay,
       "isCarne": isCarne,
@@ -57,7 +57,7 @@ class Payment {
   Future<bool> debitPayment(int value, {String userReference = USER_REFERENCE, bool printReceipt = true, bool partialPay = false, bool isCarne = false}) async {
     return await channel.invokeMethod(PaymentTypeCall.DEBIT.method, {
       "value": value,
-      "userReference": userReference,
+      "userReference": _sanitizeUserReference(userReference),
       "printReceipt": printReceipt,
       "partialPay": partialPay,
       "isCarne": isCarne,
@@ -68,7 +68,7 @@ class Payment {
   Future<bool> pixPayment(int value, {String userReference = USER_REFERENCE, bool printReceipt = true, bool partialPay = false, bool isCarne = false}) async {
     return await channel.invokeMethod(PaymentTypeCall.PIX.method, {
       "value": value,
-      "userReference": userReference,
+      "userReference": _sanitizeUserReference(userReference),
       "printReceipt": printReceipt,
       "partialPay": partialPay,
       "isCarne": isCarne,
@@ -79,7 +79,7 @@ class Payment {
   Future<bool> voucherPayment(int value, {String userReference = USER_REFERENCE, bool printReceipt = true, bool partialPay = false, bool isCarne = false}) async {
     return await channel.invokeMethod(PaymentTypeCall.VOUCHER.method, {
       "value": value,
-      "userReference": userReference,
+      "userReference": _sanitizeUserReference(userReference),
       "printReceipt": printReceipt,
       "partialPay": partialPay,
       "isCarne": isCarne,
@@ -93,7 +93,7 @@ class Payment {
       "amount": amount,
       "installmentType": installmentType.value,
       "installments": installments,
-      "userReference": userReference,
+      "userReference": _sanitizeUserReference(userReference),
       "printReceipt": printReceipt,
       "partialPay": partialPay,
       "isCarne": isCarne,
@@ -272,5 +272,12 @@ class Payment {
         throw "METHOD NOT IMPLEMENTED";
     }
     return true;
+  }
+
+  String _sanitizeUserReference(String value) {
+    if (value.length <= 10) {
+      return value;
+    }
+    return value.substring(0, 10);
   }
 }
