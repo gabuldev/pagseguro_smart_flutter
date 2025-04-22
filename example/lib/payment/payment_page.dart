@@ -191,6 +191,11 @@ class _PaymentPageState extends State<PaymentPage> {
               PrintRenderWidget.print(
                 context,
                 pagseguroSmartInstance: PagseguroSmart.instance(),
+                foregroundScreen: const Scaffold(
+                  body: Center(
+                    child: Text('Aguarde até a impressão ser concluída...'),
+                  ),
+                ),
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: list.length,
